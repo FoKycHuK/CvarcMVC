@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "GrantAdminAccess";
+}
+@ViewBag.ReturnMessage
+<h2>Grant admin access to user</h2>
+@Html.ActionLink("Back to menu", "Index")
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>
+        User name
+    </div>
+    <p>
+        @Html.TextBox("UserName")
+    </p>
+    <p>
+        Super admin access: @Html.CheckBox("SuperAdminAccess")
+    </p>
+    
+    <input type="submit" value="Grant" />
+}
+

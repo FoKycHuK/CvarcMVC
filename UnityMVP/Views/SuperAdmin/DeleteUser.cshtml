@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Delete user";
+}
+
+@ViewBag.ResultMessage
+
+<h2>Create Role</h2>
+@Html.ActionLink("Back to menu", "Index")
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>
+        User name
+    </div>
+    <p>
+        @Html.TextBox("UserName")
+    </p>
+    <input type="submit" value="Delete" />
+}
