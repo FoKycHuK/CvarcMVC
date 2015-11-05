@@ -1,0 +1,11 @@
+﻿@model UnityMVP.Models.LocalPasswordModel
+
+<h3>Your Cvarc-tag</h3>
+
+@using (Html.BeginForm("Manage", "Account"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    @Guid.NewGuid().ToString()
+}

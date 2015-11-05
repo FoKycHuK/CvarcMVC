@@ -306,6 +306,7 @@
     <Content Include="Views\SuperAdmin\Index.cshtml" />
     <Content Include="Views\SuperAdmin\DeleteUser.cshtml" />
     <Content Include="Views\SuperAdmin\GrantAdminAccess.cshtml" />
+    <Content Include="Views\Account\_CvarcTagPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

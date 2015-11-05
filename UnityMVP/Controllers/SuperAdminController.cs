@@ -42,11 +42,11 @@ namespace UnityMVP.Controllers
                     // deletes record from UserProfile table
                 ViewBag.ResultMessage = "User deleted successfully!";
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 ViewBag.ResultMessage = "User do not exists";
             }
-            catch (Exception e)
+            catch
             {
                 ViewBag.ResultMessage = "Unexpected error while deleting user";
             }
@@ -80,7 +80,7 @@ namespace UnityMVP.Controllers
                 else
                     ViewBag.ReturnMessage = "User do not exists";
             }
-            catch (Exception e)
+            catch
             {
                 ViewBag.ReturnMessage = "Unhandeled exception while adding role";
             }
