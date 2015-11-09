@@ -27,8 +27,7 @@ namespace UnityMVP.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
-
+               
                 try
                 {
                     using (var context = new UsersContext())
@@ -41,13 +40,13 @@ namespace UnityMVP.Filters
                     }
 
                     WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+
                 }
                 catch (Exception ex)
                 {
                     throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
                 }
 
-                // Включаем роли
                 if (!Roles.Enabled)
                     Roles.Enabled = true;
 
@@ -68,6 +67,7 @@ namespace UnityMVP.Filters
                     WebSecurity.CreateUserAndAccount("smalladmin", WebConstants.SuperAdminPassword);
                 if (!Roles.IsUserInRole("smalladmin", "Admin"))
                     Roles.AddUserToRole("smalladmin", "Admin");
+        
             }
         }
     }

@@ -7,14 +7,14 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
 using UnityMVP.Filters;
+using WebMatrix.WebData;
 using UnityMVP.Models;
 
 namespace UnityMVP.Controllers
 {
-    [Authorize]
     [InitializeSimpleMembership]
+    [Authorize]
     public class AccountController : Controller
     {
         //
@@ -79,7 +79,11 @@ namespace UnityMVP.Controllers
                 // Attempt to register the user
                 try
                 {
+
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    var context = new UsersContext();
+                    context.UserProfiles.Where(z => z.UserName == model.UserName).First().CvarcTag = "AAAA";
+                    context.SaveChanges();
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
