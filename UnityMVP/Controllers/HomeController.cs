@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UnityMVP.Models;
 
 namespace UnityMVP.Controllers
 {
@@ -27,6 +28,14 @@ namespace UnityMVP.Controllers
             ViewBag.Message = "Your contact page.";
             //return Redirect("/SuperAdmin/");
             return View();
+        }
+
+        [Authorize]
+        public string Test()
+        {
+            var name = User.Identity.Name;
+            var tag = new UsersContext().UserProfiles.Where(z => z.UserName == name).First().CvarcTag;//Select(z => z.CvarcTag).FirstOrDefault();
+            return name + " " + tag;
         }
     }
 }

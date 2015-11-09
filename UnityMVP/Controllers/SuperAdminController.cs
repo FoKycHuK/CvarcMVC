@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using UnityMVP.Models;
 using WebMatrix.WebData;
 
 namespace UnityMVP.Controllers
@@ -11,6 +12,8 @@ namespace UnityMVP.Controllers
     [Authorize(Roles = "SuperAdmin")]
     public class SuperAdminController : Controller
     {
+
+
         //
         // GET: /SuperAdmin/
 

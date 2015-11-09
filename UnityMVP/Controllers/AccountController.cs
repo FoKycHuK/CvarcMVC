@@ -7,13 +7,11 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
-using UnityMVP.Filters;
 using WebMatrix.WebData;
 using UnityMVP.Models;
 
 namespace UnityMVP.Controllers
 {
-    [InitializeSimpleMembership]
     [Authorize]
     public class AccountController : Controller
     {
