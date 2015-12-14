@@ -80,7 +80,7 @@ namespace UnityMVP.Controllers
 
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     var context = new UsersContext();
-                    context.UserProfiles.Where(z => z.UserName == model.UserName).First().CvarcTag = "AAAA";
+                    context.UserProfiles.First(z => z.UserName == model.UserName).CvarcTag = Guid.NewGuid().ToString();
                     context.SaveChanges();
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
@@ -129,6 +129,10 @@ namespace UnityMVP.Controllers
 
         public ActionResult Manage(ManageMessageId? message)
         {
+            var context = new UsersContext();
+            ViewBag.CvarcTag = context.UserProfiles.First(z => z.UserName == User.Identity.Name).CvarcTag;
+            if (string.IsNullOrEmpty(ViewBag.CvarcTag))
+                ViewBag.CvarcTag = "You can't play from this account. Maybe, something went wrong...";
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
