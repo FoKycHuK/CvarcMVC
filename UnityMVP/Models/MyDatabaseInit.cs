@@ -42,8 +42,23 @@ namespace UnityMVP.Models
                 Roles.AddUserToRole("smalladmin", "Admin");
         }
 
-       
 
+        public class MyDatabaseInitCometitions : DropCreateDatabaseAlways<CompetitionsContext>
+        {
+            protected override void Seed(CompetitionsContext context)
+            {
+                context.Competitions.Add(new Competition()
+                {
+                    CreatedBy = "admin",
+                    Name = "Default competition",
+                    Description = "This is a sample of a competition rules. Hope its seems good :3",
+                    Comments = new List<Comment>(),
+                    StartAt = DateTime.Now,
+                    IsActiive = true
+                });
+                context.SaveChanges();
+            }
+        }
 
 }
 }

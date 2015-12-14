@@ -27,6 +27,7 @@ namespace UnityMVP
             AuthConfig.RegisterAuth();
 
             Database.SetInitializer<UsersContext>(new MyDatabaseInit());
+            Database.SetInitializer<CompetitionsContext>(new MyDatabaseInit.MyDatabaseInitCometitions());
             new UsersContext().UserProfiles.ToArray();
         }
     }
