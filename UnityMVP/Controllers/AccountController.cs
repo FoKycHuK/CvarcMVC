@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
+using Microsoft.Ajax.Utilities;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using UnityMVP.Models;
@@ -128,9 +129,10 @@ namespace UnityMVP.Controllers
         // GET: /Account/Manage
 
         public ActionResult Manage(ManageMessageId? message)
-        {
+        { 
             var context = new UsersContext();
-            ViewBag.CvarcTag = context.UserProfiles.First(z => z.UserName == User.Identity.Name).CvarcTag;
+            ViewBag.CvarcTag =
+                context.UserProfiles.FirstOrDefault(z => z.UserName == User.Identity.Name).IfNotNull(x => x.CvarcTag);
             if (string.IsNullOrEmpty(ViewBag.CvarcTag))
                 ViewBag.CvarcTag = "You can't play from this account. Maybe, something went wrong...";
             ViewBag.StatusMessage =

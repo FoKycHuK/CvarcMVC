@@ -1,0 +1,37 @@
+﻿@using UnityMVP.Models
+@model Competition[]
+
+
+<hgroup class="title">
+    <h1>All Competitions.</h1>
+</hgroup>
+
+@if (Model.Length > 0)
+{
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>IsActive</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Competition c in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(c.Name, "CompetitionInfo", "Competition", new { name = c.Name}, null)</td>
+                <td>@if (c.IsActiive){<div>Active!</div>}</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>No competitions :(</h2>
+}
+
+@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+{
+    <h3 style="float:right">@Html.ActionLink("Add competition", "Add", "Competition")</h3>
+}
