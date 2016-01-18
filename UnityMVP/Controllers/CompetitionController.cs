@@ -12,25 +12,29 @@ namespace UnityMVP.Controllers
         public ActionResult Index()
         {
             var context = new CompetitionsContext();
-            var competition = context.Competitions.ToArray();
-            return View(competition);
-            //return new ContentResult()
-            //{
-            //    Content =
-            //        string.Format("Name: {0}, Description: {1}. Is Active: {2}", competition.Name,
-            //            competition.Description, competition.IsActiive)
-            //};
+            var competitions = context.Competitions.ToArray();
+            return View(competitions);
         }
 
         public ActionResult CompetitionInfo(string name)
         {
-            return new ContentResult() {Content = name};
+            var context = new CompetitionsContext();
+            var competition = context.Competitions.FirstOrDefault(c => c.Name == name);
+            if (competition == null)
+                return new ContentResult { Content = "Competition " + name + " not found!" };
+            return View(competition);
         }
 
         [Authorize(Roles = "Admin, SuperAdmin")]
         public ActionResult Add()
         {
             return new ContentResult() {Content = "not implemented"};
+        }
+
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        public ActionResult Edit(string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }

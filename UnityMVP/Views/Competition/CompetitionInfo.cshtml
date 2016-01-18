@@ -1,0 +1,24 @@
+﻿@using UnityMVP.Models
+@model Competition
+
+@{
+    ViewBag.Title = Model.Name + "info";
+}
+
+<hgroup class="title">
+    <h1>@Model.Name info</h1>
+</hgroup>
+
+<div>@Model.Description</div>
+
+<div>
+    <h3>Author: @Model.CreatedBy</h3>
+    <h3>Start at: @Model.StartAt</h3>
+    <h3>ID: @Model.Id</h3>
+    <h3>Is Active: @Model.IsActiive</h3>
+</div>
+
+@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+{
+    <div style="float:right">@Html.ActionLink("Edit this competition", "Edit", "Competition", new { name = Model.Name }, null)</div>
+}
