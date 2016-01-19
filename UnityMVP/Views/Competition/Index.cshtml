@@ -24,7 +24,7 @@
             <tr>
                 <td>@Html.ActionLink(c.Name, "CompetitionInfo", "Competition", new { name = c.Name}, null)</td>
                 <td>
-                    @if (c.IsActiive)
+                    @if (c.IsActive)
                     {
                         <div>Active!</div>
                     }
@@ -32,9 +32,16 @@
 
                 <td>@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                     {
-                        <div>@Html.ActionLink("Edit", "Edit", "Competition", new { name = c.Name}, null)</div>
+                        <div>@Html.ActionLink("Edit", "Edit", "Competition", new {name = c.Name}, null)</div>
                     }
                 </td>
+                <td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                    {
+                    <div>@Html.ActionLink("Delete", "Delete", "Competition", new { name = c.Name }, null)</div>
+                }
+            </td>
+
             </tr>
         }
         </tbody>
@@ -42,7 +49,7 @@
 }
 else
 {
-    <h2>No competitions :(</h2>
+    <h3>No competitions :(</h3>
 }
 
 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))

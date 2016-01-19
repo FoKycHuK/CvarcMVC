@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -11,10 +13,15 @@ namespace UnityMVP.Models
     public class Competition
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public string CreatedBy { get; set; }
+        [DisplayName("Start Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")] //HH:mm:ss
+        [DataType(DataType.DateTime)]
         public DateTime StartAt { get; set; }
-        public bool IsActiive { get; set; }
+        [DisplayName("Is active now")]
+        public bool IsActive { get; set; }
         public string Description { get; set; }
         public ICollection<Comment> Comments { get; set; }
     }

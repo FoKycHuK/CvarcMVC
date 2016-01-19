@@ -26,15 +26,40 @@ namespace UnityMVP.Controllers
         }
 
         [Authorize(Roles = "Admin, SuperAdmin")]
+        [HttpGet]
         public ActionResult Add()
         {
-            return new ContentResult() {Content = "not implemented"};
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        [HttpPost]
+        public ActionResult Add(Competition comp)
+        {
+            comp.CreatedBy = User.Identity.Name;
+            comp.Comments = new List<Comment>();
+            var context = new CompetitionsContext();
+            context.Competitions.Add(comp);
+            context.SaveChanges();
+            return new ContentResult { Content = "Competition " + comp.Name + " created." };
         }
 
         [Authorize(Roles = "Admin, SuperAdmin")]
         public ActionResult Edit(string name)
         {
-            throw new NotImplementedException();
+            return new ContentResult {Content = "editing not implemented. delete competition and create another one :("};
+        }
+
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        public ActionResult Delete(string name)
+        {
+            var context = new CompetitionsContext();
+            var compToDelete = context.Competitions.FirstOrDefault(c => c.Name == name);
+            if (compToDelete == null)
+                return new ContentResult {Content = "competition not found"};
+            context.Competitions.Remove(compToDelete);
+            context.SaveChanges();
+            return new ContentResult {Content = "competition deleted"};
         }
     }
 }

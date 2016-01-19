@@ -54,7 +54,7 @@ namespace UnityMVP.Models
                     Description = "This is a sample of a competition rules. Hope its seems good :3",
                     Comments = new List<Comment>(),
                     StartAt = DateTime.Now,
-                    IsActiive = true
+                    IsActive = true
                 });
                 context.SaveChanges();
             }
