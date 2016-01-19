@@ -23,6 +23,7 @@ namespace UnityMVP.Models
         [DisplayName("Is active now")]
         public bool IsActive { get; set; }
         public string Description { get; set; }
+        public string UnityName { get; set; }
         public ICollection<GameResult> PlayedGames { get; set; }
     }
 

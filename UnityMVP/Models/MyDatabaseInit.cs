@@ -40,6 +40,13 @@ namespace UnityMVP.Models
                 WebSecurity.CreateUserAndAccount("smalladmin", WebConstants.SuperAdminPassword);
             if (!Roles.IsUserInRole("smalladmin", "Admin"))
                 Roles.AddUserToRole("smalladmin", "Admin");
+
+            WebSecurity.CreateUserAndAccount("qweqwe", "qweqwe");
+            WebSecurity.CreateUserAndAccount("qweqweqwe", "qweqwe");
+            var userContext = new UsersContext();
+            userContext.UserProfiles.FirstOrDefault(u => u.UserName == "qweqwe").CvarcTag = "12f3f648-97dc-4743-a605-a8ced438ed5d";
+            userContext.UserProfiles.FirstOrDefault(u => u.UserName == "qweqweqwe").CvarcTag = "6808f2b8-e626-4d78-9ccb-fd2670689f96";
+            userContext.SaveChanges();
         }
 
 
@@ -52,6 +59,7 @@ namespace UnityMVP.Models
                     CreatedBy = "admin",
                     Name = "Default competition",
                     Description = "This is a sample of a competition rules. Hope its seems good :3",
+                    UnityName = "RoboMoviesLevel1",
                     PlayedGames = new List<GameResult> {new GameResult {Id = 1, LeftPlayer = "left", RightPlayer = "right", LeftScore = 10, RightScore = 20} },
                     StartAt = DateTime.Now,
                     IsActive = true
