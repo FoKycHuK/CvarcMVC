@@ -23,14 +23,16 @@ namespace UnityMVP.Models
         [DisplayName("Is active now")]
         public bool IsActive { get; set; }
         public string Description { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<GameResult> PlayedGames { get; set; }
     }
 
-    public class Comment
+    public class GameResult
     {
         public int Id { get; set; }
-        public string Author { get; set; }
-        public string Content { get; set; }
+        public string LeftPlayer { get; set; }
+        public string RightPlayer { get; set; }
+        public int LeftScore { get; set; }
+        public int RightScore { get; set; }
     }
 
     public class CompetitionsContext : DbContext

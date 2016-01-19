@@ -37,7 +37,7 @@ namespace UnityMVP.Controllers
         public ActionResult Add(Competition comp)
         {
             comp.CreatedBy = User.Identity.Name;
-            comp.Comments = new List<Comment>();
+            comp.PlayedGames = new List<GameResult>();
             var context = new CompetitionsContext();
             context.Competitions.Add(comp);
             context.SaveChanges();

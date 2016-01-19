@@ -52,7 +52,7 @@ namespace UnityMVP.Models
                     CreatedBy = "admin",
                     Name = "Default competition",
                     Description = "This is a sample of a competition rules. Hope its seems good :3",
-                    Comments = new List<Comment>(),
+                    PlayedGames = new List<GameResult> {new GameResult {Id = 1, LeftPlayer = "left", RightPlayer = "right", LeftScore = 10, RightScore = 20} },
                     StartAt = DateTime.Now,
                     IsActive = true
                 });
