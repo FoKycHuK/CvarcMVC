@@ -51,9 +51,11 @@ namespace UnityMVP.Controllers
         {
             var context = new CompetitionsContext();
             var competition = context.Competitions.FirstOrDefault(c => c.Name == name);
+            if (competition == null)
+                return new ContentResult { Content = "competition not found!" };
             competition.IsActive = !competition.IsActive;
-
-            return new ContentResult {Content = "editing not implemented. delete competition and create another one :("};
+            context.SaveChanges();
+            return new ContentResult {Content = competition.IsActive ? "competition activeted!" : "competition deactevated!"};
         }
 
         [Authorize(Roles = "Admin, SuperAdmin")]

@@ -32,7 +32,7 @@
 
                 <td>@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                     {
-                        <div>@Html.ActionLink("Edit", "Edit", "Competition", new {name = c.Name}, null)</div>
+                        <div>@Html.ActionLink(c.IsActive ? "Deactivate" : "Activate", "Edit", "Competition", new {name = c.Name}, null)</div>
                     }
                 </td>
                 <td>

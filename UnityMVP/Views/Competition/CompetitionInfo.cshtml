@@ -20,7 +20,7 @@
 
 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
 {
-    <div style="float:right">@Html.ActionLink("Edit this competition", "Edit", "Competition", new { name = Model.Name }, null)</div>
+    <div style="float:right">@Html.ActionLink(Model.IsActive ? "Deactivate competition" : "Activate competition", "Edit", "Competition", new { name = Model.Name }, null)</div>
 }
 
 <h2> Played Games: </h2>
