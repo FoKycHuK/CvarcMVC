@@ -48,7 +48,7 @@ namespace UnityMVP.Models
             userContext.SaveChanges();
         }
     }
-    public class MyDatabaseInitCometitions : DropCreateDatabaseIfModelChanges<CompetitionsContext>
+    public class MyDatabaseInitCometitions : DropCreateDatabaseAlways<CompetitionsContext>
     {
         protected override void Seed(CompetitionsContext context)
         {
@@ -59,8 +59,8 @@ namespace UnityMVP.Models
                 Description = "This is a sample of a competition rules. Hope its seems good :3",
                 UnityName = "RoboMoviesLevel1",
                 PlayedGames = new List<GameResult> { new GameResult { Id = 1, LeftPlayer = "left", RightPlayer = "right", LeftScore = 10, RightScore = 20 } },
-                StartAt = DateTime.Now,
-                IsActive = true
+                StartAt = DateTime.Now + TimeSpan.FromSeconds(10),
+                IsActive = false
             });
             context.SaveChanges();
         }
