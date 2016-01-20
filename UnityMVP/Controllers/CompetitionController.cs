@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Reflection.Emit;
 using System.Web;
 using System.Web.Mvc;
@@ -24,7 +25,7 @@ namespace UnityMVP.Controllers
             var context = new CompetitionsContext();
             var competition = context.Competitions.Include(c => c.PlayedGames).FirstOrDefault(c => c.Name == name);
             if (competition == null)
-                return new ContentResult { Content = "Competition " + name + " not found!" };
+                return RedirectToAction("Index", new {message = "Competition \"" + name + "\" not found!" });
             return View(competition);
         }
 

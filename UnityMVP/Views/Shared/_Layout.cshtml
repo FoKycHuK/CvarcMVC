@@ -20,6 +20,10 @@
                     </section>
                     <nav>
                         <ul id="menu">
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                                <li>@Html.ActionLink("Admin panel", "Index", "SuperAdmin")</li>
+                            }
                             <li>@Html.ActionLink("Competitions", "Index", "Competition")</li>
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
