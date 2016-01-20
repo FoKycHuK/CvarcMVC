@@ -7,13 +7,12 @@ using WebMatrix.WebData;
 
 namespace UnityMVP.Models
 {
-    public class MyDatabaseInit : DropCreateDatabaseAlways<UsersContext>
+    public class MyDatabaseInit : DropCreateDatabaseIfModelChanges<UsersContext>
     {
         //
         // GET: /MyDatabaseInit/
         protected override void Seed(UsersContext context)
         {
-            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             InitRolesAndDefaultAccount();
         }
 
@@ -41,32 +40,29 @@ namespace UnityMVP.Models
             if (!Roles.IsUserInRole("smalladmin", "Admin"))
                 Roles.AddUserToRole("smalladmin", "Admin");
 
-            WebSecurity.CreateUserAndAccount("qweqwe", "qweqwe");
-            WebSecurity.CreateUserAndAccount("qweqweqwe", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test0", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test1", "qweqwe");
             var userContext = new UsersContext();
-            userContext.UserProfiles.FirstOrDefault(u => u.UserName == "qweqwe").CvarcTag = "12f3f648-97dc-4743-a605-a8ced438ed5d";
-            userContext.UserProfiles.FirstOrDefault(u => u.UserName == "qweqweqwe").CvarcTag = "6808f2b8-e626-4d78-9ccb-fd2670689f96";
+            userContext.UserProfiles.First(u => u.UserName == "test0").CvarcTag = "00000000-0000-0000-0000-000000000000";
+            userContext.UserProfiles.First(u => u.UserName == "test1").CvarcTag = "00000000-0000-0000-0000-000000000001";
             userContext.SaveChanges();
         }
-
-
-        public class MyDatabaseInitCometitions : DropCreateDatabaseAlways<CompetitionsContext>
+    }
+    public class MyDatabaseInitCometitions : DropCreateDatabaseIfModelChanges<CompetitionsContext>
+    {
+        protected override void Seed(CompetitionsContext context)
         {
-            protected override void Seed(CompetitionsContext context)
+            context.Competitions.Add(new Competition()
             {
-                context.Competitions.Add(new Competition()
-                {
-                    CreatedBy = "admin",
-                    Name = "Default competition",
-                    Description = "This is a sample of a competition rules. Hope its seems good :3",
-                    UnityName = "RoboMoviesLevel1",
-                    PlayedGames = new List<GameResult> {new GameResult {Id = 1, LeftPlayer = "left", RightPlayer = "right", LeftScore = 10, RightScore = 20} },
-                    StartAt = DateTime.Now,
-                    IsActive = true
-                });
-                context.SaveChanges();
-            }
+                CreatedBy = "admin",
+                Name = "Default competition",
+                Description = "This is a sample of a competition rules. Hope its seems good :3",
+                UnityName = "RoboMoviesLevel1",
+                PlayedGames = new List<GameResult> { new GameResult { Id = 1, LeftPlayer = "left", RightPlayer = "right", LeftScore = 10, RightScore = 20 } },
+                StartAt = DateTime.Now,
+                IsActive = true
+            });
+            context.SaveChanges();
         }
-
-}
+    }
 }

@@ -11,10 +11,11 @@ namespace UnityMVP.Controllers
 {
     public class CompetitionController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
             var context = new CompetitionsContext();
             var competitions = context.Competitions.ToArray();
+            ViewBag.Message = message;
             return View(competitions);
         }
 
@@ -43,31 +44,33 @@ namespace UnityMVP.Controllers
             var context = new CompetitionsContext();
             context.Competitions.Add(comp);
             context.SaveChanges();
-            return new ContentResult { Content = "Competition " + comp.Name + " created." };
+            return RedirectToAction("Index", new {message = "Competition \"" + comp.Name + "\" created."});
         }
 
         [Authorize(Roles = "Admin, SuperAdmin")]
-        public ActionResult Edit(string name)
+        public ActionResult Edit(string name, string returnUrl)
         {
             var context = new CompetitionsContext();
             var competition = context.Competitions.FirstOrDefault(c => c.Name == name);
             if (competition == null)
-                return new ContentResult { Content = "competition not found!" };
+                return RedirectToAction("Index", new { message = "competition \"" + name + "\" not found!" });
             competition.IsActive = !competition.IsActive;
             context.SaveChanges();
-            return new ContentResult {Content = competition.IsActive ? "competition activeted!" : "competition deactevated!"};
+            var message = "Competition \"" + name + "\" " + (competition.IsActive ? "activated!" : "deactivated!");
+            return RedirectToAction("Index", new {message = message});
         }
 
         [Authorize(Roles = "Admin, SuperAdmin")]
         public ActionResult Delete(string name)
         {
             var context = new CompetitionsContext();
-            var compToDelete = context.Competitions.FirstOrDefault(c => c.Name == name);
+            var compToDelete = context.Competitions.Include(c => c.PlayedGames).FirstOrDefault(c => c.Name == name);
             if (compToDelete == null)
-                return new ContentResult {Content = "competition not found"};
+                return RedirectToAction("Index", new {message = "competition \"" + name + "\" not found!" });
+            compToDelete.PlayedGames.Clear(); // sql need this.
             context.Competitions.Remove(compToDelete);
             context.SaveChanges();
-            return new ContentResult {Content = "competition deleted"};
+            return RedirectToAction("Index", new { message = "competition \"" + name + "\" deleted!" });
         }
 
         [AllowAnonymous]
