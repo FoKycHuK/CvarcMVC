@@ -195,7 +195,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CompetitionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RulesController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
@@ -204,8 +203,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\CompetitionModels.cs" />
     <Compile Include="Models\MyDatabaseInit.cs" />
+    <Compile Include="Models\ResultsModels.cs" />
     <Compile Include="Models\WebConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -326,9 +325,6 @@
     <Content Include="Views\SuperAdmin\DeleteUser.cshtml" />
     <Content Include="Views\SuperAdmin\GrantAdminAccess.cshtml" />
     <Content Include="Views\Account\_CvarcTagPartial.cshtml" />
-    <None Include="Views\Competition\Add.cshtml" />
-    <None Include="Views\Competition\CompetitionInfo.cshtml" />
-    <None Include="Views\Competition\Index.cshtml" />
     <None Include="Views\Rules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

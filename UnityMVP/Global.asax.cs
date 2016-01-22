@@ -30,26 +30,7 @@ namespace UnityMVP
             AuthConfig.RegisterAuth();
 
             Database.SetInitializer<UsersContext>(new MyDatabaseInit());
-            Database.SetInitializer<CompetitionsContext>(new MyDatabaseInitCometitions());
             new UsersContext().UserProfiles.ToArray();
-            new CompetitionsContext().Competitions.ToArray();
-            //Task.Factory.StartNew(TimeChecker, TaskCreationOptions.LongRunning);
-        }
-
-        private void TimeChecker()
-        {
-            using (var compContext = new CompetitionsContext())
-            while (true)
-            {
-                var time = DateTime.Now;
-                foreach (var comp in compContext.Competitions)
-                {
-                    if (time <= comp.StartAt || (time - comp.StartAt) >= TimeSpan.FromSeconds(999) || comp.IsActive) continue;
-                    comp.IsActive = true;
-                    compContext.SaveChanges();
-                }
-                Thread.Sleep(1000);
-            }
         }
     }
 }
