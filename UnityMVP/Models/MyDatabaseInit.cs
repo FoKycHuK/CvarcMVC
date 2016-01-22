@@ -69,4 +69,13 @@ namespace UnityMVP.Models
             context.SaveChanges();
         }
     }
+
+    public class UnityStatusDB : DropCreateDatabaseAlways<UnityStatusContext>
+    {
+        protected override void Seed(UnityStatusContext context)
+        {
+            context.UnityStatus.Add(new UnityStatus {Online = false});
+            context.SaveChanges();
+        }
+    }
 }

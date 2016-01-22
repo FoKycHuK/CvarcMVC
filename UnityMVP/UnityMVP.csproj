@@ -205,6 +205,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MyDatabaseInit.cs" />
     <Compile Include="Models\ResultsModels.cs" />
+    <Compile Include="Models\UnityStatusModels.cs" />
     <Compile Include="Models\WebConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

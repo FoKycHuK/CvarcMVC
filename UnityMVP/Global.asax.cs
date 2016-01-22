@@ -31,8 +31,10 @@ namespace UnityMVP
 
             Database.SetInitializer<UsersContext>(new MyDatabaseInit());
             Database.SetInitializer<GameResultsContext>(new InitGameResultsDB());
+            Database.SetInitializer<UnityStatusContext>(new UnityStatusDB());
             new UsersContext().UserProfiles.ToArray();
             new GameResultsContext().GameResults.ToArray();
+            new UnityStatusContext().UnityStatus.ToArray();
         }
     }
 }

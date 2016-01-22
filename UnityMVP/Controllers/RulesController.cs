@@ -54,9 +54,17 @@ namespace UnityMVP.Controllers
             return new ContentResult {Content = "suc"};
         }
 
-        public class SimpleFileView
+        public ActionResult SayStatus(string password, bool isOnline)
         {
-            public HttpPostedFileBase UploadedFile { get; set; }
+            if (password != WebConstants.WebPassword)
+                return new ContentResult {Content = "password fail"};
+            var context = new UnityStatusContext();
+            var status = context.UnityStatus.First();
+            if (status.Online == isOnline)
+                return new ContentResult {Content = "already know!"};
+            status.Online = isOnline;
+            context.SaveChanges();
+            return new ContentResult {Content = "suc"};
         }
     }
 }

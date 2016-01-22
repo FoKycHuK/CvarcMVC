@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using UnityMVP.Models
+@{
+    ViewBag.UnityStatus = new UnityStatusContext().UnityStatus.First().Online ? "ONLINE!" : "Offline";
+}
+
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -20,14 +25,15 @@
                     </section>
                     <nav>
                         <ul id="menu">
+                            <li>Unity status: @ViewBag.UnityStatus</li>
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Rules", "Index", "Rules")</li>
                             @if (User.IsInRole("SuperAdmin"))
                             {
                                 <li>@Html.ActionLink("Admin panel", "Index", "SuperAdmin")</li>
                             }
-                            <li>@Html.ActionLink("Rules", "Index", "Rules")</li>
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
                     </nav>
                 </div>
