@@ -49,4 +49,20 @@ namespace UnityMVP.Models
             userContext.SaveChanges();
         }
     }
+
+    public class InitGameResultsDB : DropCreateDatabaseAlways<GameResultsContext>
+    {
+        protected override void Seed(GameResultsContext context)
+        {
+            context.GameResults.Add(new GameResults
+            {
+                Time = DateTime.Now,
+                LeftPlayerUserName = "test0",
+                RightPlayerUserName = "test1",
+                LeftPlayerScores = 10,
+                RightPlayerScores = 20,
+            });
+            context.SaveChanges();
+        }
+    }
 }

@@ -30,7 +30,9 @@ namespace UnityMVP
             AuthConfig.RegisterAuth();
 
             Database.SetInitializer<UsersContext>(new MyDatabaseInit());
+            Database.SetInitializer<GameResultsContext>(new InitGameResultsDB());
             new UsersContext().UserProfiles.ToArray();
+            new GameResultsContext().GameResults.ToArray();
         }
     }
 }
