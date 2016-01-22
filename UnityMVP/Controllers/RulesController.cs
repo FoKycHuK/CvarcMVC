@@ -19,7 +19,7 @@ namespace UnityMVP.Controllers
             return View(new GameResultsContext().GameResults.ToArray());
         }
 
-        public ActionResult PushResult(string password, string leftTag, string rightTag, int leftScore, int rightScore)
+        public ActionResult PushResult(string password, string leftTag, string rightTag, int leftScore, int rightScore, string logFileName)
         {
             
             if (password != WebConstants.WebPassword)
@@ -35,10 +35,28 @@ namespace UnityMVP.Controllers
                 LeftPlayerUserName = users.First(u => u.CvarcTag == leftTag).UserName,
                 RightPlayerUserName = users.First(u => u.CvarcTag == rightTag).UserName,
                 LeftPlayerScores = leftScore,
-                RightPlayerScores = rightScore
+                RightPlayerScores = rightScore,
+                logFileName = logFileName
             });
             context.SaveChanges();
             return new ContentResult {Content = "suc"};
+        }
+        [HttpPost]
+        public ActionResult PushLog(string password, HttpPostedFileBase file)
+        {
+            if (password != WebConstants.WebPassword)
+                return new ContentResult { Content = "fail" };
+
+            if (file == null)
+                return new ContentResult {Content = "sorry"};
+            var fname = System.IO.Path.GetFileName(file.FileName);
+            file.SaveAs(WebConstants.AbsoluteLogPath + fname);
+            return new ContentResult {Content = "suc"};
+        }
+
+        public class SimpleFileView
+        {
+            public HttpPostedFileBase UploadedFile { get; set; }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Optimization;
+using UnityMVP.Models;
 
 namespace UnityMVP
 {
@@ -24,6 +25,9 @@ namespace UnityMVP
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+
+            //Unity logs
+            bundles.Add(new Bundle("~/" + WebConstants.RelativeLogPath).IncludeDirectory("~/" + WebConstants.RelativeLogPath, "*.log"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
