@@ -29,7 +29,6 @@ namespace UnityMVP
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             Database.SetInitializer<UsersContext>(new MyDatabaseInit());
             Database.SetInitializer<CompetitionsContext>(new MyDatabaseInitCometitions());
             new UsersContext().UserProfiles.ToArray();

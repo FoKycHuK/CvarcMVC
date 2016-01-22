@@ -13,6 +13,7 @@ namespace UnityMVP.Models
         // GET: /MyDatabaseInit/
         protected override void Seed(UsersContext context)
         {
+            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             InitRolesAndDefaultAccount();
         }
 
