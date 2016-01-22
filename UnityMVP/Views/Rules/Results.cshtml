@@ -1,0 +1,34 @@
+﻿@using UnityMVP.Models
+@model GameResults[]
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2> Played Games: </h2>
+@if (Model != null && Model.Length > 0)
+{
+    <table>
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Left player</th>
+            <th>Right player</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (GameResults result in Model)
+            {
+                <tr>
+                    <td>@result.Time.ToString()</td>
+                    <td>@result.LeftPlayerUserName (@result.LeftPlayerScores points)</td>
+                    <td>@result.RightPlayerUserName (@result.RightPlayerScores points)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4>There is no played games now.</h4>
+}

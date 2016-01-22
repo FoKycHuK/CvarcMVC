@@ -9,5 +9,6 @@ namespace UnityMVP.Models
     {
         public static string SuperAdminLogin = "admin";
         public static string SuperAdminPassword = "somePassword";
+        public static string WebPassword = "somePassword";
     }
 }
