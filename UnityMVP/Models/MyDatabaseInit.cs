@@ -7,10 +7,8 @@ using WebMatrix.WebData;
 
 namespace UnityMVP.Models
 {
-    public class MyDatabaseInit : DropCreateDatabaseAlways<UsersContext>
+    public class MyDatabaseInit : DropCreateDatabaseIfModelChanges<UsersContext>
     {
-        //
-        // GET: /MyDatabaseInit/
         protected override void Seed(UsersContext context)
         {
             // ВАЖНО!
@@ -55,7 +53,7 @@ namespace UnityMVP.Models
         }
     }
 
-    public class InitGameResultsDB : DropCreateDatabaseAlways<GameResultsContext>
+    public class InitGameResultsDB : DropCreateDatabaseIfModelChanges<GameResultsContext>
     {
         protected override void Seed(GameResultsContext context)
         {

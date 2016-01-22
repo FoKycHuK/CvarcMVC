@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Globalization;
 using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace UnityMVP.Models
 {
@@ -14,6 +15,8 @@ namespace UnityMVP.Models
         public UsersContext()
             : base("DefaultConnection")
         {
+            if (!WebSecurity.Initialized)
+                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
