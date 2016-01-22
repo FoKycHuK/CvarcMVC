@@ -64,6 +64,7 @@ namespace UnityMVP.Models
                 RightPlayerUserName = "test1",
                 LeftPlayerScores = 10,
                 RightPlayerScores = 20,
+                logFileName = "hehkektop.txt"
             });
             context.SaveChanges();
         }

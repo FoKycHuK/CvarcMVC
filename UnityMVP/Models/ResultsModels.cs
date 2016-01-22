@@ -15,6 +15,7 @@ namespace UnityMVP.Models
         public string RightPlayerUserName { get; set; }
         public int LeftPlayerScores { get; set; }
         public int RightPlayerScores { get; set; }
+        public string logFileName { get; set; }
     }
 
     public class GameResultsContext : DbContext

@@ -16,6 +16,7 @@
                     <th>Time</th>
                     <th>Left player</th>
                     <th>Right player</th>
+                    <th>Log file</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +26,7 @@
                         <td>@result.Time.ToString()</td>
                         <td>@result.LeftPlayerUserName (@result.LeftPlayerScores points)</td>
                         <td>@result.RightPlayerUserName (@result.RightPlayerScores points)</td>
+                        <td>@Html.ActionLink("Download", result.logFileName, WebConstants.RelativeLogPath)</td>
                     </tr>
                 }
             </tbody>
