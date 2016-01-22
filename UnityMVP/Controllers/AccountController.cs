@@ -135,6 +135,9 @@ namespace UnityMVP.Controllers
                 context.UserProfiles.FirstOrDefault(z => z.UserName == User.Identity.Name).IfNotNull(x => x.CvarcTag);
             if (string.IsNullOrEmpty(ViewBag.CvarcTag))
                 ViewBag.CvarcTag = "You can't play from this account. Maybe, something went wrong...";
+            ViewBag.PlayedGames = new GameResultsContext().GameResults
+                .Where(r => r.LeftPlayerUserName == User.Identity.Name || r.RightPlayerUserName == User.Identity.Name)
+                .ToArray();
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."

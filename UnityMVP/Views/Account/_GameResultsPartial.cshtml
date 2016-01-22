@@ -1,0 +1,39 @@
+﻿@using UnityMVP.Models
+@model UnityMVP.Models.LocalPasswordModel
+
+<h3>Your played games</h3>
+
+@using (Html.BeginForm("Manage", "Account"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    
+    if (ViewBag.PlayedGames != null && ((GameResults[])ViewBag.PlayedGames).Length > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Left player</th>
+                    <th>Right player</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (GameResults result in (GameResults[])ViewBag.PlayedGames)
+                {
+                    <tr>
+                        <td>@result.Time.ToString()</td>
+                        <td>@result.LeftPlayerUserName (@result.LeftPlayerScores points)</td>
+                        <td>@result.RightPlayerUserName (@result.RightPlayerScores points)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div>There is no played games now.</div>
+    }
+}
+
+

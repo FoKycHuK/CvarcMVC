@@ -325,6 +325,7 @@
     <Content Include="Views\SuperAdmin\DeleteUser.cshtml" />
     <Content Include="Views\SuperAdmin\GrantAdminAccess.cshtml" />
     <Content Include="Views\Account\_CvarcTagPartial.cshtml" />
+    <Content Include="Views\Account\_GameResultsPartial.cshtml" />
     <None Include="Views\Rules\Index.cshtml" />
     <None Include="Views\Rules\Results.cshtml" />
   </ItemGroup>

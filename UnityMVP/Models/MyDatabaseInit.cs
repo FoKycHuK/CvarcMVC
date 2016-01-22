@@ -7,13 +7,18 @@ using WebMatrix.WebData;
 
 namespace UnityMVP.Models
 {
-    public class MyDatabaseInit : DropCreateDatabaseIfModelChanges<UsersContext>
+    public class MyDatabaseInit : DropCreateDatabaseAlways<UsersContext>
     {
         //
         // GET: /MyDatabaseInit/
         protected override void Seed(UsersContext context)
         {
-            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            // ВАЖНО!
+            // Проблема: если ставить DropCreateIfModelChanged -- эта строка не вызывается.
+            // Если вызывать строку в другом месте -- ничего не работает.
+
+            if (!WebSecurity.Initialized)
+                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             InitRolesAndDefaultAccount();
         }
 
