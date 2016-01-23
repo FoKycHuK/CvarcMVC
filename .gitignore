@@ -1,5 +1,5 @@
 # Unity logs
-UnityMVC/Content/UnityLogs/
+UnityMVC/Content/UnityLogs/*.log
 
 
 ## Ignore Visual Studio temporary files, build results, and
