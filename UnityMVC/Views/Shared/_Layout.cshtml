@@ -27,7 +27,7 @@
                         <ul id="menu">
                             <li>Unity статус: @ViewBag.UnityStatus</li>
                             <li>@Html.ActionLink("На главную", "Index", "Home")</li>
-                            <li>@Html.ActionLink("FAQ", "About", "Home")</li>
+                            <li>@Html.ActionLink("FAQ", "FAQ", "Home")</li>
                             <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
                             <li>@Html.ActionLink("Правила", "Index", "Rules")</li>
                             @if (WebSecurity.Initialized && User.IsInRole("SuperAdmin"))

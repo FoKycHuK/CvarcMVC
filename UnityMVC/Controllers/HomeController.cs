@@ -13,7 +13,7 @@ namespace UnityMVC.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult FAQ()
         {
             return View();
         }
