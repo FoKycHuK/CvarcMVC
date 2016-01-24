@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Главная страница";
 }
 @section featured {
     <section class="featured">
@@ -8,28 +8,31 @@
                 <h1>@ViewBag.Title</h1>
             </hgroup>
             <p>
-                Welcome to Cvarc-Unity project
+                Добро пожаловать на веб-составляющую Cvarc-Unity project
             </p>
         </div>
     </section>
 }
-<h3>We suggest the following:</h3>
+<h3>Для того, чтоб приступить к работе, вам нужно выполнить несколько простых инструкций:</h3>
 <ol class="round">
     <li class="one">
-        <h5>Check rules of event</h5>
-        Rules of current event you can find @Html.ActionLink("here", "Index", "Rules")
+        <h5>Ознакомьтесь с правилами текущего мероприятия.</h5>
+        Правила вы можете найти @Html.ActionLink("здесь", "Index", "Rules"), а ответы на часто задаваемые вопросы
+        @Html.ActionLink("здесь.", "About")
     </li>
 
     <li class="two">
-        <h5>Clone from github example of client</h5>
-        Repository with all example of clients <a href="https://github.com/air-labs/ucvarc">here</a>
+        <h5>Скачайте пример клиента</h5>
+        Все необходимое для начала работы, а так же простые примеры, вы можете найти в нашем репозитории <a href="https://github.com/air-labs/ucvarc">здесь.</a>
     </li>
 
     <li class="three">
-        <h5>Write code!</h5>
-        Make some changes in client project (if u use c#) and insert your cvarc-tag from account manage page.
-        Well done! Now you ready to rush in the game.
-        You can track your and others results @Html.ActionLink("here", "Results", "Rules")
-        Good luck.
+        <h5>Пишите код! :)</h5>
+        Внесите какие-нибудь изменения в код клиента, а так же вставьте туда свой CvarcTag из личного кабинета.
+        Вы можете следить за всеми прошедшими играми @Html.ActionLink("тут", "Results", "Rules"), или только за своими в личном кабинете.
+    </li>
+    <li class="four">
+        <h5>Загрузите итоговое решение</h5>
+        Когда сочтете нужным, загрузите все ваши исходники в личном кабинете.
     </li>
 </ol>

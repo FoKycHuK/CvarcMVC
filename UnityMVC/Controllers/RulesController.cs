@@ -76,7 +76,7 @@ namespace UnityMVC.Controllers
             var solutionExists = System.IO.File.Exists(baseFileName + ".zip") ||
                                  System.IO.File.Exists(baseFileName + ".rar");
             if (solutionExists)
-                ViewBag.Message = "Your solution already uploaded. You can overwrite it";
+                ViewBag.Message = "Ваше решение уже загружено. Вы можете его перезаписать. В этом случае, старое решение будет недоступно.";
             return View(new SimpleFileView());
         }
 
@@ -86,24 +86,24 @@ namespace UnityMVC.Controllers
         {
             if (simpleFileView.UploadedFile == null)
             {
-                ViewBag.Message = "Error: Choose file to upload!";
+                ViewBag.Message = "Ошибка: Выберете файл для загрузки!";
                 return View(simpleFileView);
             }
             if (simpleFileView.UploadedFile.ContentLength > 7 * 512 * 1024) // 3.5 mb
             {
-                ViewBag.Message = "File too large! Maximal size is 3.5 MB. Please delete all binary from solution (bin, obj folders)";
+                ViewBag.Message = "Ошибка: Файл слишком большой! Максимальный размер 3.5 МБ. Попробуйте удалить все бинарные файлы из архива.";
                 return View(simpleFileView);
             }
             var path = WebConstants.BasePath + WebConstants.RelativeSolutionsPath;
             var extention = simpleFileView.UploadedFile.FileName.Split('.').Last();
             if (extention != "zip" && extention != "rar")
             {
-                ViewBag.Message = "Error: You should upload *.rar or *.zip";
+                ViewBag.Message = "Ошибка: вы должны предоставить архив с решением в формате *.rar или *.zip";
                 return View(simpleFileView);
             }
             var expectedFileName = User.Identity.Name + "." + extention;
             simpleFileView.UploadedFile.SaveAs(path + expectedFileName);
-            ViewBag.Message = "Solution was successfully uploaded";
+            ViewBag.Message = "Решение было загружено успешно!";
             return View(simpleFileView);
         }
 
@@ -114,7 +114,7 @@ namespace UnityMVC.Controllers
             var solutionExists = System.IO.File.Exists(baseFilePath + ".zip") ||
                                  System.IO.File.Exists(baseFilePath + ".rar");
             if (!solutionExists)
-                return new ContentResult {Content = "Your solution does not exists"};
+                return new ContentResult {Content = "Ваше решение не найдено!"};
             var extension = (System.IO.File.Exists(baseFilePath + ".zip") ? ".zip" : ".rar");
             return new FilePathResult(baseFilePath + extension, "multipart/form-data") {FileDownloadName = User.Identity.Name + extension};
         }

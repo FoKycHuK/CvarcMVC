@@ -43,15 +43,15 @@ namespace UnityMVC.Controllers
                     // deletes record from webpages_Membership table
                 ((SimpleMembershipProvider) Membership.Provider).DeleteUser(userToDelete, true);
                     // deletes record from UserProfile table
-                ViewBag.ResultMessage = "User deleted successfully!";
+                ViewBag.ResultMessage = "Пользователь удален.";
             }
             catch (NullReferenceException)
             {
-                ViewBag.ResultMessage = "User do not exists";
+                ViewBag.ResultMessage = "Пользователь не существует.";
             }
             catch
             {
-                ViewBag.ResultMessage = "Unexpected error while deleting user";
+                ViewBag.ResultMessage = "Неизвестная ошибка при удалении пользователя.";
             }
             return View();
         }
@@ -75,17 +75,17 @@ namespace UnityMVC.Controllers
                     if (!Roles.IsUserInRole(userToGrant, roleToGrant))
                     {
                         Roles.AddUserToRole(userToGrant, roleToGrant);
-                        ViewBag.ReturnMessage = "Admin access grand to user successfully!";
+                        ViewBag.ReturnMessage = "Права администратора успешно присвоены пользователю " + userToGrant;
                     }
                     else
-                        ViewBag.ReturnMessage = "User already have admin access";
+                        ViewBag.ReturnMessage = "Этот пользователь уже имеет права администратора такого уровня.";
                 }
                 else
-                    ViewBag.ReturnMessage = "User do not exists";
+                    ViewBag.ReturnMessage = "Пользователь не существует";
             }
             catch
             {
-                ViewBag.ReturnMessage = "Unhandeled exception while adding role";
+                ViewBag.ReturnMessage = "Неизвсестная ошибка при назначении прав.";
             }
             return View();
         }

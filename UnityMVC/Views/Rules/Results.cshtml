@@ -2,19 +2,19 @@
 @model GameResults[]
 
 @{
-    ViewBag.Title = "Results";
+    ViewBag.Title = "Результаты";
 }
 
-<h2> Played Games: </h2>
+<h2> Все сыгранные игры: </h2>
 @if (Model != null && Model.Length > 0)
 {
     <table>
         <thead>
         <tr>
-            <th>Time</th>
-            <th>Left player</th>
-            <th>Right player</th>
-            <th>Log file</th>
+            <th>Время</th>
+            <th>Левый игрок</th>
+            <th>Правый игрок</th>
+            <th>Логи</th>
         </tr>
         </thead>
         <tbody>
@@ -22,9 +22,9 @@
             {
                 <tr>
                     <td>@result.Time.ToString()</td>
-                    <td>@result.LeftPlayerUserName (@result.LeftPlayerScores points)</td>
-                    <td>@result.RightPlayerUserName (@result.RightPlayerScores points)</td>
-                    <td>@Html.ActionLink("Download", result.logFileName, WebConstants.RelativeLogPath)</td>
+                    <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
+                    <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
+                    <td>@Html.ActionLink("Скачать", result.logFileName, WebConstants.RelativeLogPath)</td>
                 </tr>
             }
         </tbody>
@@ -32,5 +32,5 @@
 }
 else
 {
-    <h4>There is no played games now.</h4>
+    <h4>На данный момент не было ни одной игры.</h4>
 }

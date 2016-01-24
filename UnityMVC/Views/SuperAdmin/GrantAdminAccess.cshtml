@@ -1,25 +1,24 @@
 ﻿@{
-    ViewBag.Title = "GrantAdminAccess";
+    ViewBag.Title = "Присвоить права администратора";
 }
 @ViewBag.ReturnMessage
-<h2>Grant admin access to user</h2>
-@Html.ActionLink("Back to menu", "Index")
-<hr />
+<h2>Сделать пользователя администратором</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <div>
-        User name
+        Имя пользователя
     </div>
     <p>
         @Html.TextBox("UserName")
     </p>
     <p>
-        Super admin access: @Html.CheckBox("SuperAdminAccess")
+        Полный доступ: @Html.CheckBox("SuperAdminAccess")
+        Полный доступ дает доступ к админ панели.
     </p>
     
-    <input type="submit" value="Grant" />
+    <input type="submit" value="Принять" />
 }
 

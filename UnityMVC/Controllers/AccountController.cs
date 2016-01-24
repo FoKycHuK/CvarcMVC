@@ -41,7 +41,7 @@ namespace UnityMVC.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError("", "Имя пользователя или пароль неверны.");
             return View(model);
         }
 
@@ -134,7 +134,7 @@ namespace UnityMVC.Controllers
             var user = context.UserProfiles.FirstOrDefault(z => z.UserName == User.Identity.Name);
 
             ViewBag.CvarcTag = (user == null || string.IsNullOrEmpty(user.CvarcTag))
-                ? "You can't play from this account. Maybe, something went wrong..."
+                ? "У вас нет кварк тега и вы не можете играть. Возможно, что-то пошло не так."
                 : user.CvarcTag;
             ViewBag.PlayedGames = new GameResultsContext().GameResults
                 .Where(r => r.LeftPlayerUserName == User.Identity.Name || r.RightPlayerUserName == User.Identity.Name)
@@ -143,9 +143,9 @@ namespace UnityMVC.Controllers
             ViewBag.SolutionExists = System.IO.File.Exists(baseFileName + ".zip") ||
                                      System.IO.File.Exists(baseFileName + ".rar");
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
+                : message == ManageMessageId.SetPasswordSuccess ? "Ваш пароль установлен."
+                : message == ManageMessageId.RemoveLoginSuccess ? "Дополнительный способ входа удален."
                 : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -183,7 +183,7 @@ namespace UnityMVC.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                        ModelState.AddModelError("", "Текущий пароль неверный, либо новый пароль некорректный.");
                     }
                 }
             }
@@ -295,7 +295,7 @@ namespace UnityMVC.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
+                        ModelState.AddModelError("UserName", "Такой пользователь уже существует. Выберете другое имя.");
                     }
                 }
             }
@@ -387,34 +387,34 @@ namespace UnityMVC.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+                    return "Такой пользователь уже существует. Выберете другое имя.";
 
                 case MembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+                    return "Пользователь с таким e-mail уже существует. Выберете другой e-mail.";
 
                 case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+                    return "Пароль неверный. Проверьте и попробуйте еще раз";
 
                 case MembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
+                    return "e-mail неверный. Проверьте и попробуйте еще раз";
 
                 case MembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+                    return "Неправильный ответ на вопрос. Проверьте и попробуйте еще раз";
 
                 case MembershipCreateStatus.InvalidQuestion:
-                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+                    return "Неправильный вопрос. Проверьте и попробуйте еще раз";
 
                 case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
+                    return "Неправильное имя пользователя. Проверьте и попробуйте еще раз";
 
                 case MembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Ошибка аутентификации. Проверьте данные и попробуйте еще раз. Если ошибка повторяется -- свяжитесь с администратором";
 
                 case MembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Отменено. Попробуйте еще раз. Если ошибка повторяется -- свяжитесь с администратором";
 
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Неизвестная ошибка. Попробуйте еще раз. Если ошибка повторяется -- свяжитесь с администратором";
             }
         }
         #endregion

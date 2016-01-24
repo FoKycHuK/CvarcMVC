@@ -1,6 +1,6 @@
 ﻿@model UnityMVC.Models.LocalPasswordModel
 @{
-    ViewBag.Title = "Manage Account";
+    ViewBag.Title = "Личный кабинет";
 }
 
 <hgroup class="title">
@@ -9,7 +9,30 @@
 
 <p class="message-success">@ViewBag.StatusMessage</p>
 
-<p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+<p>Вы вошли как <strong>@User.Identity.Name</strong>.</p>
+
+
+
+@Html.Partial("_CvarcTagPartial")
+@Html.Partial("_GameResultsPartial")
+
+<h3>Загрузка решения</h3>
+
+@using (Html.BeginForm("Manage", "Account"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    if (!ViewBag.SolutionExists)
+    {
+        <div>У вас сейчас нет загруженного решения. Когда будете готовы, загрузите решение @Html.ActionLink("здесь", "UploadSolution", "Rules")</div>
+    }
+    else
+    {
+        <div>Вы загрузили решение. @Html.ActionLink("Скачать.", "DownloadSolution", "Rules")</div>
+        <div>Вы можете загрузить другое решение @Html.ActionLink("здесь", "UploadSolution", "Rules") (старое решение будет удалено).</div>
+    }
+}
 
 @if (ViewBag.HasLocalPassword)
 {
@@ -20,31 +43,10 @@ else
     @Html.Partial("_SetPasswordPartial")
 }
 
-@Html.Partial("_CvarcTagPartial")
-@Html.Partial("_GameResultsPartial")
-
-<h3>Solution upload</h3>
-
-@using (Html.BeginForm("Manage", "Account"))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
-    if (!ViewBag.SolutionExists)
-    {
-        <div>Your solution is NOT uploaded now. You can upload your solution @Html.ActionLink("here", "UploadSolution", "Rules")</div>
-    }
-    else
-    {
-        <div>Your solution already uploaded. @Html.ActionLink("Download.", "DownloadSolution", "Rules")</div>
-        <div>You can overwrite it @Html.ActionLink("here", "UploadSolution", "Rules")</div>
-    }
-}
-
 <section id="externalLogins">
     @Html.Action("RemoveExternalLogins")
 
-    <h3>Add an external login</h3>
+    <h3>Внешние сервисы</h3>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
 </section>
 

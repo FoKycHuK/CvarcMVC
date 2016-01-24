@@ -1,11 +1,11 @@
 ﻿@model UnityMVC.Models.RegisterExternalLoginModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Зарегистрироваться";
 }
 
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
-    <h2>Associate your @ViewBag.ProviderDisplayName account.</h2>
+    <h2>Привяжите ваш @ViewBag.ProviderDisplayName аккаунт.</h2>
 </hgroup>
 
 @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
@@ -13,11 +13,10 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Association Form</legend>
+        <legend>Форма привязки</legend>
         <p>
-            You've successfully authenticated with <strong>@ViewBag.ProviderDisplayName</strong>.
-            Please enter a user name for this site below and click the Confirm button to finish
-            logging in.
+            Вы успешно зашли с помощью <strong>@ViewBag.ProviderDisplayName</strong>.
+            Пожалуйста, введите желаемое имя пользователя для того, чтоб закончить регистрацию.
         </p>
         <ol>
             <li class="name">
@@ -27,7 +26,7 @@
             </li>
         </ol>
         @Html.HiddenFor(m => m.ExternalLoginData)
-        <input type="submit" value="Register" />
+        <input type="submit" value="Зарегистрироваться" />
     </fieldset>
 }
 

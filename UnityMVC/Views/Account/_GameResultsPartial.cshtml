@@ -1,7 +1,7 @@
 ﻿@using UnityMVC.Models
 @model UnityMVC.Models.LocalPasswordModel
 
-<h3>Your played games</h3>
+<h3>Прошедшие игры с вашим участием</h3>
 
 @using (Html.BeginForm("Manage", "Account"))
 {
@@ -13,10 +13,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Time</th>
-                    <th>Left player</th>
-                    <th>Right player</th>
-                    <th>Log file</th>
+                    <th>Время</th>
+                    <th>Левый игрок</th>
+                    <th>Правый игрок</th>
+                    <th>Лог игры</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,9 +24,9 @@
                 {
                     <tr>
                         <td>@result.Time.ToString()</td>
-                        <td>@result.LeftPlayerUserName (@result.LeftPlayerScores points)</td>
-                        <td>@result.RightPlayerUserName (@result.RightPlayerScores points)</td>
-                        <td>@Html.ActionLink("Download", result.logFileName, WebConstants.RelativeLogPath)</td>
+                        <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
+                        <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
+                        <td>@Html.ActionLink("Скачать", result.logFileName, WebConstants.RelativeLogPath)</td>
                     </tr>
                 }
             </tbody>
@@ -34,7 +34,7 @@
     }
     else
     {
-        <div>There is no played games now.</div>
+        <div>Вы еще не участвовали в играх.</div>
     }
 }
 
