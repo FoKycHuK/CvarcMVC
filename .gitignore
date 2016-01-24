@@ -1,5 +1,7 @@
 # Unity logs
 UnityMVC/Content/UnityLogs/*.log
+UnityMVC/Content/Solutions/*.rar
+UnityMVC/Content/Solutions/*.zip
 
 
 ## Ignore Visual Studio temporary files, build results, and

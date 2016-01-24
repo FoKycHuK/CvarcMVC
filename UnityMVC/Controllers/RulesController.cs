@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UnityMVC.Models;
+using System.IO;
 
 namespace UnityMVC.Controllers
 {
@@ -50,7 +51,7 @@ namespace UnityMVC.Controllers
             if (file == null)
                 return new ContentResult {Content = "sorry"};
             var fname = System.IO.Path.GetFileName(file.FileName);
-            file.SaveAs(WebConstants.AbsoluteLogPath + fname);
+            file.SaveAs(WebConstants.BasePath + WebConstants.RelativeLogPath + fname);
             return new ContentResult {Content = "suc"};
         }
 
@@ -65,6 +66,40 @@ namespace UnityMVC.Controllers
             status.Online = isOnline;
             context.SaveChanges();
             return new ContentResult {Content = "suc"};
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult UploadSolution()
+        {
+            var baseFileName = WebConstants.BasePath + WebConstants.RelativeSolutionsPath + User.Identity.Name;
+            var solutionExists = System.IO.File.Exists(baseFileName + ".zip") ||
+                                 System.IO.File.Exists(baseFileName + ".rar");
+            if (solutionExists)
+                ViewBag.Message = "Your solution already uploaded. You can overwrite it";
+            return View(new SimpleFileView());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult UploadSolution(SimpleFileView simpleFileView)
+        {
+            if (simpleFileView.UploadedFile == null)
+            {
+                ViewBag.Message = "Error: Choose file to upload!";
+                return View(simpleFileView);
+            }
+            var path = WebConstants.BasePath + WebConstants.RelativeSolutionsPath;
+            var extention = simpleFileView.UploadedFile.FileName.Split('.').Last();
+            if (extention != "zip" && extention != "rar")
+            {
+                ViewBag.Message = "Error: You should upload *.rar or *.zip";
+                return View(simpleFileView);
+            }
+            var expectedFileName = User.Identity.Name + "." + extention;
+            simpleFileView.UploadedFile.SaveAs(path + expectedFileName);
+            ViewBag.Message = "Solution was successfully uploaded";
+            return View(simpleFileView);
         }
     }
 }

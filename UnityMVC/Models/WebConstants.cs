@@ -11,6 +11,7 @@ namespace UnityMVC.Models
         public static string SuperAdminPassword = "somePassword";
         public static string WebPassword = "somePassword";
         public static string RelativeLogPath = "Content/UnityLogs/";
-        public static string AbsoluteLogPath = AppDomain.CurrentDomain.BaseDirectory + RelativeLogPath;
+        public static string RelativeSolutionsPath = "Content/Solutions/";
+        public static string BasePath = AppDomain.CurrentDomain.BaseDirectory;
     }
 }

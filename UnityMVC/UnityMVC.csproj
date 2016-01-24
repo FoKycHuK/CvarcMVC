@@ -172,6 +172,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MyDatabaseInit.cs" />
     <Compile Include="Models\ResultsModels.cs" />
+    <Compile Include="Models\SimpleFileView.cs" />
     <Compile Include="Models\UnityStatusModels.cs" />
     <Compile Include="Models\WebConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -296,6 +297,7 @@
     <Content Include="Views\SuperAdmin\DeleteUser.cshtml" />
     <Content Include="Views\SuperAdmin\GrantAdminAccess.cshtml" />
     <Content Include="Views\SuperAdmin\Index.cshtml" />
+    <Content Include="Views\Rules\UploadSolution.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

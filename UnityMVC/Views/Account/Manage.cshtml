@@ -23,6 +23,23 @@ else
 @Html.Partial("_CvarcTagPartial")
 @Html.Partial("_GameResultsPartial")
 
+<h3>Solution upload</h3>
+
+@using (Html.BeginForm("Manage", "Account"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    if (!ViewBag.SolutionExists)
+    {
+        <div>Your solution is NOT uploaded now. You can upload your solution @Html.ActionLink("here", "UploadSolution", "Rules")</div>
+    }
+    else
+    {
+        <div>Your solution already uploaded. You can overwrite it @Html.ActionLink("here", "UploadSolution", "Rules")</div>
+    }
+}
+
 <section id="externalLogins">
     @Html.Action("RemoveExternalLogins")
 

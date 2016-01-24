@@ -139,6 +139,9 @@ namespace UnityMVC.Controllers
             ViewBag.PlayedGames = new GameResultsContext().GameResults
                 .Where(r => r.LeftPlayerUserName == User.Identity.Name || r.RightPlayerUserName == User.Identity.Name)
                 .ToArray();
+            var baseFileName = WebConstants.BasePath + WebConstants.RelativeSolutionsPath + User.Identity.Name;
+            ViewBag.SolutionExists = System.IO.File.Exists(baseFileName + ".zip") ||
+                                     System.IO.File.Exists(baseFileName + ".rar");
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
