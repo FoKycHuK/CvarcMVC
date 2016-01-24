@@ -89,6 +89,11 @@ namespace UnityMVC.Controllers
                 ViewBag.Message = "Error: Choose file to upload!";
                 return View(simpleFileView);
             }
+            if (simpleFileView.UploadedFile.ContentLength > 7 * 512 * 1024) // 3.5 mb
+            {
+                ViewBag.Message = "File too large! Maximal size is 3.5 MB. Please delete all binary from solution (bin, obj folders)";
+                return View(simpleFileView);
+            }
             var path = WebConstants.BasePath + WebConstants.RelativeSolutionsPath;
             var extention = simpleFileView.UploadedFile.FileName.Split('.').Last();
             if (extention != "zip" && extention != "rar")
@@ -100,6 +105,18 @@ namespace UnityMVC.Controllers
             simpleFileView.UploadedFile.SaveAs(path + expectedFileName);
             ViewBag.Message = "Solution was successfully uploaded";
             return View(simpleFileView);
+        }
+
+        [Authorize]
+        public ActionResult DownloadSolution()
+        {
+            var baseFilePath = WebConstants.BasePath + WebConstants.RelativeSolutionsPath + User.Identity.Name;
+            var solutionExists = System.IO.File.Exists(baseFilePath + ".zip") ||
+                                 System.IO.File.Exists(baseFilePath + ".rar");
+            if (!solutionExists)
+                return new ContentResult {Content = "Your solution does not exists"};
+            var extension = (System.IO.File.Exists(baseFilePath + ".zip") ? ".zip" : ".rar");
+            return new FilePathResult(baseFilePath + extension, "multipart/form-data") {FileDownloadName = User.Identity.Name + extension};
         }
     }
 }

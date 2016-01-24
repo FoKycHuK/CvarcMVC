@@ -36,7 +36,8 @@ else
     }
     else
     {
-        <div>Your solution already uploaded. You can overwrite it @Html.ActionLink("here", "UploadSolution", "Rules")</div>
+        <div>Your solution already uploaded. @Html.ActionLink("Download.", "DownloadSolution", "Rules")</div>
+        <div>You can overwrite it @Html.ActionLink("here", "UploadSolution", "Rules")</div>
     }
 }
 
