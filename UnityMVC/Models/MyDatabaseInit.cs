@@ -41,8 +41,8 @@ namespace UnityMVC.Models
                 LeftPlayerScores = int.Parse(s[2]),
                 RightPlayerScores = int.Parse(s[3]),
                 LogFileName = s[4],
-                Type = "group",
-                Subtype = s[5]
+                Type = s[5],
+                Subtype = s[6]
             });
             foreach (var game in games)
                 context.GameResults.Add(game);

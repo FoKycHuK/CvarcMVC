@@ -1,0 +1,30 @@
+﻿@using UnityMVC.Models;
+@model TournamentResults
+
+@{
+    ViewBag.Title = "Плей-офф";
+}
+
+<h2>Результаты Плей-оффа</h2>
+
+
+<table>
+    <tbody>
+        @foreach (var line in @Model.lines)
+        {
+            <tr>
+                @foreach (var element in line)
+                {
+                    if (element.link == null)
+                    {
+                        <td rowspan="@element.span">@element.text</td>
+                    }
+                    else
+                    {
+                        <td rowspan="@element.span">@Html.ActionLink(element.text, element.link, WebConstants.RelativeLogPath)</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

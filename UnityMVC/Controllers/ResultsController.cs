@@ -21,6 +21,12 @@ namespace UnityMVC.Controllers
             return View(new GroupResults(collection.ToList()));
         }
 
+        public ActionResult TournamentResult()
+        {
+            var collection = new GameResultsContext().GameResults.Where(r => r.Type == "tournament");
+            return View(new TournamentResults(collection.ToList(), WebConstants.CountOfPlayoffPlayers));
+        }
+
         public ActionResult PushResult(string password, string leftTag, string rightTag, int leftScore, int rightScore, string logFileName, string type, string subtype)
         {
             

@@ -311,6 +311,7 @@
     <None Include="Views\Account\ForgotPassword.cshtml" />
     <None Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Results\GroupResults.cshtml" />
+    <None Include="Views\Results\TournamentResult.cshtml" />
     <None Include="Views\SuperAdmin\CleanUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
