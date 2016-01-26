@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Очистка";
+}
+@ViewBag.Message
+<h2>@ViewBag.Title</h2>
+
+<p>Внимание! Это действие удалит информацию по всем проведенным играм из базы данных.<br/>
+   Файлы логов останутся в папке с проектом и все еще будут доступны по прямым ссылкам.</p>
+<br/>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>
+        Введите, пожалуйста, ваше имя пользователя, чтобы продолжить:
+    </div>
+    <p>
+        @Html.TextBox("UserName")
+    </p>
+
+    <input type="submit" value="Очистить" />
+}

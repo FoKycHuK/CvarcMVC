@@ -9,29 +9,22 @@ using WebMatrix.WebData;
 
 namespace UnityMVC.Controllers
 {
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class SuperAdminController : Controller
     {
-
-
-        //
-        // GET: /SuperAdmin/
-
         public ActionResult Index()
         {
             return View();
         }
-
-        // GET: /Roles/Create
+        
         [HttpGet]
         public ActionResult DeleteUser()
         {
             return View();
         }
 
-        //
-        // POST: /Roles/Create
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult DeleteUser(FormCollection collection)
         {
             var userToDelete = collection["UserName"];
@@ -63,6 +56,7 @@ namespace UnityMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult GrantAdminAccess(FormCollection collection)
         {
             var userToGrant = collection["UserName"];
@@ -87,6 +81,27 @@ namespace UnityMVC.Controllers
             {
                 ViewBag.ReturnMessage = "Неизвсестная ошибка при назначении прав.";
             }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CleanUp()
+        {
+            return View();
+        }
+
+        public ActionResult CleanUp(FormCollection collection)
+        {
+            if (collection["UserName"] != User.Identity.Name)
+            {
+                ViewBag.Message = "Неверно введено ваше имя пользователя";
+                return View();
+            }
+            var context = new GameResultsContext();
+            foreach (var value in context.GameResults)
+                context.GameResults.Remove(value);
+            context.SaveChanges();
+            ViewBag.Message = "Все результаты игр удалены.";
             return View();
         }
     }

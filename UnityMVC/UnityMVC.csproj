@@ -308,6 +308,7 @@
     <Content Include="Views\SuperAdmin\Index.cshtml" />
     <Content Include="Views\Rules\UploadSolution.cshtml" />
     <Content Include="Views\Home\_UnityStatusPartial.cshtml" />
+    <None Include="Views\SuperAdmin\CleanUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
