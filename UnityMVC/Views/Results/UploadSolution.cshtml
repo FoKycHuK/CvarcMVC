@@ -12,7 +12,7 @@
     Вам нужно включить в решение только исходники, достаточные для компиляции, без бинарных файлов. <br/>
     Если вы используете сторонние пакеты из nu-get, убедитесь, что студия корретно их подтягивает из интернета. <br/>
     Если вы используете сторонние библиотеки не из nu-get, включите их в архив.</p>
-@using (Html.BeginForm("UploadSolution", "Rules", FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal" }))
+@using (Html.BeginForm("UploadSolution", "Results", FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal" }))
 {
     <fieldset>
         <div class="control-group">

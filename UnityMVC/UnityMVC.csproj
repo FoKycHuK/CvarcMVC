@@ -170,7 +170,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RulesController.cs" />
+    <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -301,12 +301,11 @@
     </Content>
     <Content Include="Views\Account\_CvarcTagPartial.cshtml" />
     <Content Include="Views\Account\_GameResultsPartial.cshtml" />
-    <Content Include="Views\Rules\Index.cshtml" />
-    <Content Include="Views\Rules\Results.cshtml" />
+    <Content Include="Views\Results\Index.cshtml" />
     <Content Include="Views\SuperAdmin\DeleteUser.cshtml" />
     <Content Include="Views\SuperAdmin\GrantAdminAccess.cshtml" />
     <Content Include="Views\SuperAdmin\Index.cshtml" />
-    <Content Include="Views\Rules\UploadSolution.cshtml" />
+    <Content Include="Views\Results\UploadSolution.cshtml" />
     <Content Include="Views\Home\_UnityStatusPartial.cshtml" />
     <None Include="Views\SuperAdmin\CleanUp.cshtml" />
   </ItemGroup>

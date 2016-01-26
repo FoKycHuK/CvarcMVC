@@ -25,12 +25,12 @@
 
     if (!ViewBag.SolutionExists)
     {
-        <div>У вас сейчас нет загруженного решения. Когда будете готовы, загрузите решение @Html.ActionLink("здесь", "UploadSolution", "Rules")</div>
+        <div>У вас сейчас нет загруженного решения. Когда будете готовы, загрузите решение @Html.ActionLink("здесь", "UploadSolution", "Results")</div>
     }
     else
     {
-        <div>Вы загрузили решение. Время загрузки @ViewBag.SolutionLoadedTime @Html.ActionLink("Скачать.", "DownloadSolution", "Rules")</div>
-        <div>Вы можете загрузить другое решение @Html.ActionLink("здесь", "UploadSolution", "Rules") (старое решение будет удалено).</div>
+        <div>Вы загрузили решение. Время загрузки @ViewBag.SolutionLoadedTime @Html.ActionLink("Скачать.", "DownloadSolution", "Results")</div>
+        <div>Вы можете загрузить другое решение @Html.ActionLink("здесь", "UploadSolution", "Results") (старое решение будет удалено).</div>
     }
 }
 

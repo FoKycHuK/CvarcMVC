@@ -23,7 +23,7 @@
                             <li>@Html.ActionLink("На главную", "Index", "Home")</li>
                             <li>@Html.ActionLink("FAQ", "FAQ", "Home")</li>
                             <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("Правила", "Index", "Rules")</li>
+                            <li>@Html.ActionLink("Результаты", "Index", "Results")</li>
                             @if (WebSecurity.Initialized && User.IsInRole("SuperAdmin"))
                             {
                                 <li>@Html.ActionLink("Admin panel", "Index", "SuperAdmin")</li>

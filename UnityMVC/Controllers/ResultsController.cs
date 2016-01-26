@@ -8,14 +8,9 @@ using System.IO;
 
 namespace UnityMVC.Controllers
 {
-    public class RulesController : Controller
+    public class ResultsController : Controller
     {
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult Results()
         {
             return View(new GameResultsContext().GameResults.ToArray());
         }
