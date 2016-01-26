@@ -15,6 +15,6 @@ namespace UnityMVC.Models
         public static string BasePath = AppDomain.CurrentDomain.BaseDirectory;
         public static string Gmail = "cvarc.team@gmail.com";
         public static string GmailPassword = "somePassword";
-        public static int CountOfPlayoffPlayers = 8;
+        public static int CountOfPlayoffPlayers = 16;
     }
 }

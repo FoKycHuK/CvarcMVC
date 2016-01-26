@@ -31,7 +31,7 @@ namespace UnityMVC.Models
         private void MakeSomeGroupGamesForTests(GameResultsContext context)
         {
             var lines = System.IO.File.ReadAllLines(WebConstants.BasePath + "Content/testGames.txt");
-            var splited = lines.Select(line => line.Split(':'));
+            var splited = lines.Where(line => !line.StartsWith("//") && !string.IsNullOrWhiteSpace(line)).Select(line => line.Split(':'));
             // example: lName:rName:10:20:some.log:A
             var games = splited.Select(s => new GameResults
             {

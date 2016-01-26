@@ -180,10 +180,11 @@ namespace UnityMVC.Models
                 var game = GetGame(span/2, gameNum);
                 if (isScores)
                 {
-                    var text = game.LeftPlayerScores + " : " + game.RightPlayerScores;
-                    return new Element(text, game.LogFileName, span);
+                    var text = game == null ? "" : game.LeftPlayerScores + " : " + game.RightPlayerScores;
+                    return new Element(text, game == null ? null : game.LogFileName, span);
                 }
-                var winner = game.LeftPlayerScores > game.RightPlayerScores
+                var winner = game == null ? "Не сыграно" : 
+                    game.LeftPlayerScores > game.RightPlayerScores
                     ? game.LeftPlayerUserName
                     : game.RightPlayerUserName;
                 return new Element(winner, null, span);
@@ -200,6 +201,8 @@ namespace UnityMVC.Models
                 return lowBracketGames[number];
             var firstGame = GetGame(span / 2,  number * 2);
             var secondGame = GetGame(span / 2, number * 2 + 1);
+            if (firstGame == null || secondGame == null)
+                return null;
             var winner1 = firstGame.LeftPlayerScores > firstGame.RightPlayerScores
                 ? firstGame.LeftPlayerUserName 
                 : firstGame.RightPlayerUserName;
