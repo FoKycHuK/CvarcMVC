@@ -19,9 +19,33 @@ namespace UnityMVC.Models
                 RightPlayerUserName = "test1",
                 LeftPlayerScores = 10,
                 RightPlayerScores = 20,
-                logFileName = "hehkektop.txt"
+                LogFileName = "hehkektop.txt",
+                Type = "training"
             });
+            
+            MakeSomeGroupGamesForTests(context);
+
             context.SaveChanges();
+        }
+
+        private void MakeSomeGroupGamesForTests(GameResultsContext context)
+        {
+            var lines = System.IO.File.ReadAllLines(WebConstants.BasePath + "Content/testGames.txt");
+            var splited = lines.Select(line => line.Split(':'));
+            // example: lName:rName:10:20:some.log:A
+            var games = splited.Select(s => new GameResults
+            {
+                Time = DateTime.Now,
+                LeftPlayerUserName = s[0],
+                RightPlayerUserName = s[1],
+                LeftPlayerScores = int.Parse(s[2]),
+                RightPlayerScores = int.Parse(s[3]),
+                LogFileName = s[4],
+                Type = "group",
+                Subtype = s[5]
+            });
+            foreach (var game in games)
+                context.GameResults.Add(game);
         }
     }
 

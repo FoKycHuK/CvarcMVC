@@ -531,14 +531,15 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     margin-top: 0.75em;
-    border: 0 none;
+    border: 1px solid;
 }
 
 th {
     font-size: 1.2em;
     text-align: left;
-    border: none 0px;
+    border: 1px solid;
     padding-left: 0;
+    text-align: center;
 }
 
     th a {
@@ -579,7 +580,8 @@ th {
 
 td {
     padding: 0.25em 2em 0.25em 0em;
-    border: 0 none;
+    text-align: center;
+    border: 1px solid;
 }
 
 tr.pager td {

@@ -241,6 +241,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\qwe.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -309,6 +310,7 @@
     <Content Include="Views\Home\_UnityStatusPartial.cshtml" />
     <None Include="Views\Account\ForgotPassword.cshtml" />
     <None Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Results\GroupResults.cshtml" />
     <None Include="Views\SuperAdmin\CleanUp.cshtml" />
   </ItemGroup>
   <ItemGroup>

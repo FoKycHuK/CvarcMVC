@@ -1,0 +1,16 @@
+test0:test1:10:-200:f1.log:A
+test0:test2:10:20:f2.log:A
+test0:test3:10:20:f3:A
+test1:test2:10:20:f4:A
+test1:test3:10:-10:f5:A
+test2:test3:10:20:f6:A
+test4:test5:10:60:f7:B
+test4:test6:10:20:f88:B
+test4:test7:10:20:some.log:B
+test4:test8:10:20:some.log:B
+test5:test6:100:20:some.log:B
+test5:test7:10:20:some.log:B
+test5:test8:10:20:some.log:B
+test6:test7:10:20:some.log:B
+test6:test8:10:50:some.log:B
+test7:test8:10:30:some.log:B

@@ -5,32 +5,38 @@
     ViewBag.Title = "Результаты";
 }
 
-<h2> Все сыгранные игры: </h2>
-@if (Model != null && Model.Length > 0)
-{
-    <table>
-        <thead>
-        <tr>
-            <th>Время</th>
-            <th>Левый игрок</th>
-            <th>Правый игрок</th>
-            <th>Логи</th>
-        </tr>
-        </thead>
-        <tbody>
-            @foreach (GameResults result in Model)
-            {
+<article>
+    <h2> Тренировочные игры: </h2>
+    @if (Model != null && Model.Length > 0)
+    {
+        <table>
+            <thead>
                 <tr>
-                    <td>@result.Time.ToString()</td>
-                    <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
-                    <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
-                    <td>@Html.ActionLink("Скачать", result.logFileName, WebConstants.RelativeLogPath)</td>
+                    <th>Время</th>
+                    <th>Левый игрок</th>
+                    <th>Правый игрок</th>
+                    <th>Логи</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <h4>На данный момент не было ни одной игры.</h4>
-}
+            </thead>
+            <tbody>
+                @foreach (GameResults result in Model)
+                {
+                    <tr>
+                        <td>@result.Time.ToString()</td>
+                        <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
+                        <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
+                        <td>@Html.ActionLink("Скачать", result.LogFileName, WebConstants.RelativeLogPath)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h4>На данный момент не было ни одной игры.</h4>
+    }
+</article>
+<br/>
+<aside>
+    Результаты групповых игр можно найти @Html.ActionLink("здесь", "GroupResults")
+</aside>

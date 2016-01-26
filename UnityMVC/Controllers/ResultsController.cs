@@ -12,10 +12,16 @@ namespace UnityMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View(new GameResultsContext().GameResults.ToArray());
+            return View(new GameResultsContext().GameResults.Where(r => r.Type == "training").ToArray());
         }
 
-        public ActionResult PushResult(string password, string leftTag, string rightTag, int leftScore, int rightScore, string logFileName)
+        public ActionResult GroupResults()
+        {
+            var collection = new GameResultsContext().GameResults.Where(r => r.Type == "group");
+            return View(new GroupResults(collection.ToList()));
+        }
+
+        public ActionResult PushResult(string password, string leftTag, string rightTag, int leftScore, int rightScore, string logFileName, string type, string subtype)
         {
             
             if (password != WebConstants.WebPassword)
@@ -32,10 +38,12 @@ namespace UnityMVC.Controllers
                 RightPlayerUserName = users.First(u => u.CvarcTag == rightTag).UserName,
                 LeftPlayerScores = leftScore,
                 RightPlayerScores = rightScore,
-                logFileName = logFileName
+                LogFileName = logFileName,
+                Type = type,
+                Subtype = subtype
             });
             context.SaveChanges();
-            return new ContentResult {Content = "suc"};
+            return new ContentResult {Content = "successful"};
         }
         [HttpPost]
         public ActionResult PushLog(string password, HttpPostedFileBase file)
@@ -45,9 +53,9 @@ namespace UnityMVC.Controllers
 
             if (file == null)
                 return new ContentResult {Content = "sorry"};
-            var fname = System.IO.Path.GetFileName(file.FileName);
+            var fname = Path.GetFileName(file.FileName);
             file.SaveAs(WebConstants.BasePath + WebConstants.RelativeLogPath + fname);
-            return new ContentResult {Content = "suc"};
+            return new ContentResult {Content = "successful"};
         }
 
         public ActionResult SayStatus(string password, bool isOnline)
@@ -62,7 +70,7 @@ namespace UnityMVC.Controllers
             if (isOnline)
                 status.UpTime = DateTime.Now;
             context.SaveChanges();
-            return new ContentResult {Content = "suc"};
+            return new ContentResult {Content = "successful"};
         }
 
         [Authorize]

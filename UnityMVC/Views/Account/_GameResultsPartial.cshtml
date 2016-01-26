@@ -1,5 +1,5 @@
 ﻿@using UnityMVC.Models
-@model UnityMVC.Models.LocalPasswordModel
+@model LocalPasswordModel
 
 <h3>Прошедшие игры с вашим участием</h3>
 
@@ -17,6 +17,7 @@
                     <th>Левый игрок</th>
                     <th>Правый игрок</th>
                     <th>Лог игры</th>
+                    <th>Тип</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +27,8 @@
                         <td>@result.Time.ToString()</td>
                         <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
                         <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
-                        <td>@Html.ActionLink("Скачать", result.logFileName, WebConstants.RelativeLogPath)</td>
+                        <td>@Html.ActionLink("Скачать", result.LogFileName, WebConstants.RelativeLogPath)</td>
+                        <td>@result.Type</td>
                     </tr>
                 }
             </tbody>

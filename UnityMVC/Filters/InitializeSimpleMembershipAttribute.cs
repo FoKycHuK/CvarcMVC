@@ -76,6 +76,11 @@ namespace UnityMVC.Filters
 
                 WebSecurity.CreateUserAndAccount("test0", "qweqwe");
                 WebSecurity.CreateUserAndAccount("test1", "qweqwe");
+                WebSecurity.CreateUserAndAccount("test2", "qweqwe");
+                WebSecurity.CreateUserAndAccount("test3", "qweqwe");
+                WebSecurity.CreateUserAndAccount("test4", "qweqwe");
+                WebSecurity.CreateUserAndAccount("test5", "qweqwe");
+                WebSecurity.CreateUserAndAccount("test6", "qweqwe");
                 var userContext = new UsersContext();
                 userContext.UserProfiles.First(u => u.UserName == "test0").CvarcTag = "00000000-0000-0000-0000-000000000000";
                 userContext.UserProfiles.First(u => u.UserName == "test1").CvarcTag = "00000000-0000-0000-0000-000000000001";

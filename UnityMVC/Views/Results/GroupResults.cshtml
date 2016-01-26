@@ -1,0 +1,62 @@
+﻿@using UnityMVC.Models
+@model GroupResults
+
+@{
+    ViewBag.Title = "Группы";
+}
+
+<h2>Результаты групповых игр</h2>
+
+@if (!Model.GetAllGroupNames().Any())
+{
+    <h5>Групповых игр еще не было.</h5>
+}
+else
+{
+    <div>Формат: очки слева указаны для игрока в столбце слева. Справа -- для игрока сверху.<br/>
+    Правый столбик показывает общее количество очков по результатам группового этапа для игрока в столбике слева.<br/>
+    Логи можно скачать, кликнув по счету.</div>
+}
+
+@foreach (var groupName in Model.GetAllGroupNames())
+{
+    <h3>Group @groupName</h3>
+    <table>
+        <thead>
+        <tr>
+            <th bgcolor="gray"></th>
+            @foreach (var player in Model.GetAllPlayersForGroup(groupName))
+            {
+                <th><b>@player</b></th>
+            }
+            <th>Всего очков для игрока</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var columnPlayer in Model.GetAllPlayersForGroup(groupName))
+        {
+            <tr>
+                <td><b>@columnPlayer</b></td>
+                @foreach (var rowPlayer in Model.GetAllPlayersForGroup(groupName))
+                {
+                    if (columnPlayer == rowPlayer)
+                    {
+                        <td bgcolor="gray"></td>
+                    }
+                    else
+                    {
+                        <td>@Html.ActionLink(
+                                Model.GetLineForPair(columnPlayer, rowPlayer, groupName),
+                                Model.GetLogPathForPair(columnPlayer, rowPlayer, groupName),
+                                WebConstants.RelativeLogPath)
+                        </td>
+                    }
+                }
+                <td>Итог: @Model.GetTotalScoreForPlayer(columnPlayer, groupName)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <br/>
+    <br/>
+}
