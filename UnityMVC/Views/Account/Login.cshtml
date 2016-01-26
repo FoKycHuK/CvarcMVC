@@ -29,11 +29,12 @@
             </li>
             <li>
                 @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                @Html.LabelFor(m => m.RememberMe, new {@class = "checkbox"})
             </li>
         </ol>
-        <input type="submit" value="Log in" />
+        <input type="submit" value="Log in"/>
     </fieldset>
+    <p>@Html.ActionLink("Восстановите", "ForgotPassword") пароль, если вы забыли его.</p>
     <p>
         @Html.ActionLink("Зарегистрируйтесь", "Register"), если у вас еще нет аккаунта.
     </p>

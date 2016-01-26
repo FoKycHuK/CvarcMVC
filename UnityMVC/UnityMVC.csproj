@@ -307,6 +307,8 @@
     <Content Include="Views\SuperAdmin\Index.cshtml" />
     <Content Include="Views\Results\UploadSolution.cshtml" />
     <Content Include="Views\Home\_UnityStatusPartial.cshtml" />
+    <None Include="Views\Account\ForgotPassword.cshtml" />
+    <None Include="Views\Account\ResetPassword.cshtml" />
     <None Include="Views\SuperAdmin\CleanUp.cshtml" />
   </ItemGroup>
   <ItemGroup>

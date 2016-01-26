@@ -13,5 +13,7 @@ namespace UnityMVC.Models
         public static string RelativeLogPath = "Content/UnityLogs/";
         public static string RelativeSolutionsPath = "Content/Solutions/";
         public static string BasePath = AppDomain.CurrentDomain.BaseDirectory;
+        public static string Gmail = "cvarc.team@gmail.com";
+        public static string GmailPassword = "somePassword";
     }
 }

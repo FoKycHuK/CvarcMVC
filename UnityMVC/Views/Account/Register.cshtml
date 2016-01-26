@@ -20,6 +20,12 @@
                 @Html.TextBoxFor(m => m.UserName)
             </li>
             <li>
+                @Html.LabelFor(m => m.Email)
+                Пожалуйста, вводите действующий email. По нему мы будем отправлять вам только самую важную информацию. <br/>
+                Так же email используется для восстановления пароля.<br/>
+                @Html.TextBoxFor(m => m.Email)
+            </li>
+            <li>
                 @Html.LabelFor(m => m.Password)
                 @Html.PasswordFor(m => m.Password)
             </li>

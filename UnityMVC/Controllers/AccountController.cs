@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -80,7 +81,7 @@ namespace UnityMVC.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {Email = model.Email});
                     var context = new UsersContext();
                     context.UserProfiles.First(z => z.UserName == model.UserName).CvarcTag = Guid.NewGuid().ToString();
                     context.SaveChanges();
@@ -97,12 +98,83 @@ namespace UnityMVC.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(string email)
+        {
+            var user = new UsersContext().UserProfiles.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                ViewBag.Message = "Пользователя с таким email не существует.";
+                return View();
+            }
+            var token = WebSecurity.GeneratePasswordResetToken(user.UserName);
+            
+            string body = "Hello! \nYour username: " + user.UserName + "\nYour token: " + token;
+            ViewBag.Message = TrySendEmail(email, "Password recovery", body)
+                ? "Письмо отправлено."
+                : "Произошла ошибка отправки письма. Обратитесь к администратору :(";
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult ResetPassword(string token, string newPassword, string confirm)
+        {
+            if (newPassword != confirm)
+            {
+                ViewBag.Message = "Ошибка: пароли не совпадают";
+                return View();
+            }
+            ViewBag.Message = WebSecurity.ResetPassword(token, newPassword) ? "Пароль успешно изменен" : "Ошибка: плохой токен";
+            return View();
+        }
+
         public ActionResult RecreateCvarcTag()
         {
             var context = new UsersContext();
             context.UserProfiles.First(u => u.UserName == User.Identity.Name).CvarcTag = Guid.NewGuid().ToString();
             context.SaveChanges();
             return RedirectToAction("Manage", new {Message = ManageMessageId.RecreateCvarcTagSuccess});
+        }
+
+        private bool TrySendEmail(string email, string subj, string body)
+        {
+            var client = new SmtpClient();
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(WebConstants.Gmail, WebConstants.GmailPassword);
+
+            var msg = new MailMessage();
+            msg.From = new MailAddress(WebConstants.Gmail);
+            msg.To.Add(new MailAddress(email));
+            msg.Subject = subj;
+            msg.Body = body;
+            try
+            {
+                client.Send(msg);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         //

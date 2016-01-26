@@ -27,6 +27,7 @@ namespace UnityMVC.Models
         public string UserName { get; set; }
         public string CvarcTag { get; set; }
         public DateTime? SolutionLoaded { get; set; }
+        public string Email { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -88,6 +89,8 @@ namespace UnityMVC.Models
         [Display(Name = "Подтверждение")]
         [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        public string Email { get; set; }
     }
 
     public class ExternalLogin
