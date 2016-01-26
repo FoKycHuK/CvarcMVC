@@ -31,4 +31,12 @@ namespace UnityMVC.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
+
+    public class UnityStatistics
+    {
+        public bool IsOnline { get; set; }
+        public int GamePlayed { get; set; }
+        public int UniquePlayers { get; set; }
+        public DateTime? UpTime { get; set; }
+    }
 }

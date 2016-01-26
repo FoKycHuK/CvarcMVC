@@ -1,0 +1,23 @@
+﻿@model UnityMVC.Models.UnityStatistics
+
+<aside>
+    <h3>Статус Unity</h3>
+    <p>
+        Сервер:
+        @if (Model.IsOnline)
+        {
+            <font color="green">Online</font> <br/>
+            <ul>Запущен: @Model.UpTime</ul>
+        }
+        else
+        {
+            <font color="red">Offline</font>
+        }
+        <br/>
+    </p>
+    <h5>За последний час: </h5>
+    <ul>
+        <li>Сыграно игр: @Model.GamePlayed</li>
+        <li>Уникальных игроков: @Model.UniquePlayers</li>
+    </ul>
+</aside>

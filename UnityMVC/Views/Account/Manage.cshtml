@@ -29,7 +29,7 @@
     }
     else
     {
-        <div>Вы загрузили решение. @Html.ActionLink("Скачать.", "DownloadSolution", "Rules")</div>
+        <div>Вы загрузили решение. Время загрузки @ViewBag.SolutionLoadedTime @Html.ActionLink("Скачать.", "DownloadSolution", "Rules")</div>
         <div>Вы можете загрузить другое решение @Html.ActionLink("здесь", "UploadSolution", "Rules") (старое решение будет удалено).</div>
     }
 }

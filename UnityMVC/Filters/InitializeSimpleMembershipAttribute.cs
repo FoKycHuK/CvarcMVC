@@ -33,7 +33,7 @@ namespace UnityMVC.Filters
                 {
                     using (var context = new UsersContext())
                     {
-                        context.Database.Delete(); // delete this when no need to always drop&create.
+                        context.Database.Delete(); // delete this line when release to cancel always drop&create.
 
                         if (!context.Database.Exists())
                         {

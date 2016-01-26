@@ -1,7 +1,4 @@
 ﻿@using UnityMVC.Models
-@{
-    ViewBag.UnityStatus = new UnityStatusContext().UnityStatus.First().Online ? "ONLINE!" : "Offline";
-}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +22,6 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>Unity статус: @ViewBag.UnityStatus</li>
                             <li>@Html.ActionLink("На главную", "Index", "Home")</li>
                             <li>@Html.ActionLink("FAQ", "FAQ", "Home")</li>
                             <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>

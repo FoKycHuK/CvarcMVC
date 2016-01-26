@@ -11,6 +11,7 @@ namespace UnityMVC.Models
     {
         public int Id { get; set; }
         public bool Online { get; set; }
+        public DateTime? UpTime { get; set; }
     }
 
     public class UnityStatusContext : DbContext

@@ -26,6 +26,7 @@ namespace UnityMVC.Models
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string CvarcTag { get; set; }
+        public DateTime? SolutionLoaded { get; set; }
     }
 
     public class RegisterExternalLoginModel

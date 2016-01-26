@@ -6,8 +6,12 @@
 
 <h2>@ViewBag.Title</h2>
 
-@ViewBag.Message
+<p>@ViewBag.Message</p>
 
+<p>Решение должно быть в формате *.zip и размером не более 3.5 МБ. <br/>
+    Вам нужно включить в решение только исходники, достаточные для компиляции, без бинарных файлов. <br/>
+    Если вы используете сторонние пакеты из nu-get, убедитесь, что студия корретно их подтягивает из интернета. <br/>
+    Если вы используете сторонние библиотеки не из nu-get, включите их в архив.</p>
 @using (Html.BeginForm("UploadSolution", "Rules", FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal" }))
 {
     <fieldset>

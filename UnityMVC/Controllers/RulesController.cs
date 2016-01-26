@@ -64,6 +64,8 @@ namespace UnityMVC.Controllers
             if (status.Online == isOnline)
                 return new ContentResult {Content = "already know!"};
             status.Online = isOnline;
+            if (isOnline)
+                status.UpTime = DateTime.Now;
             context.SaveChanges();
             return new ContentResult {Content = "suc"};
         }
@@ -76,7 +78,13 @@ namespace UnityMVC.Controllers
             var solutionExists = System.IO.File.Exists(baseFileName + ".zip") ||
                                  System.IO.File.Exists(baseFileName + ".rar");
             if (solutionExists)
-                ViewBag.Message = "Ваше решение уже загружено. Вы можете его перезаписать. В этом случае, старое решение будет недоступно.";
+            {
+                var time = new UsersContext().UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded;
+                string valueToDisplay = time == null ? "неизвестно" : time.ToString();
+                ViewBag.Message = "Ваше решение уже загружено. Время загрузки " +
+                                  valueToDisplay +
+                                  ". Вы можете его перезаписать. В этом случае, старое решение будет недоступно.";
+            }
             return View(new SimpleFileView());
         }
 
@@ -89,7 +97,7 @@ namespace UnityMVC.Controllers
                 ViewBag.Message = "Ошибка: Выберете файл для загрузки!";
                 return View(simpleFileView);
             }
-            if (simpleFileView.UploadedFile.ContentLength > 7 * 512 * 1024) // 3.5 mb
+            if (simpleFileView.UploadedFile.ContentLength > 7 * 512 * 1024) // 3.5 MB
             {
                 ViewBag.Message = "Ошибка: Файл слишком большой! Максимальный размер 3.5 МБ. Попробуйте удалить все бинарные файлы из архива.";
                 return View(simpleFileView);
@@ -103,6 +111,9 @@ namespace UnityMVC.Controllers
             }
             var expectedFileName = User.Identity.Name + "." + extention;
             simpleFileView.UploadedFile.SaveAs(path + expectedFileName);
+            var context = new UsersContext();
+            context.UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded = DateTime.Now;
+            context.SaveChanges();
             ViewBag.Message = "Решение было загружено успешно!";
             return View(simpleFileView);
         }
