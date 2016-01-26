@@ -5,6 +5,7 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.Services.Description;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
@@ -96,6 +97,14 @@ namespace UnityMVC.Controllers
             return View(model);
         }
 
+        public ActionResult RecreateCvarcTag()
+        {
+            var context = new UsersContext();
+            context.UserProfiles.First(u => u.UserName == User.Identity.Name).CvarcTag = Guid.NewGuid().ToString();
+            context.SaveChanges();
+            return RedirectToAction("Manage", new {Message = ManageMessageId.RecreateCvarcTagSuccess});
+        }
+
         //
         // POST: /Account/Disassociate
 
@@ -147,6 +156,7 @@ namespace UnityMVC.Controllers
                 message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
                 : message == ManageMessageId.SetPasswordSuccess ? "Ваш пароль установлен."
                 : message == ManageMessageId.RemoveLoginSuccess ? "Дополнительный способ входа удален."
+                : message == ManageMessageId.RecreateCvarcTagSuccess ? "Вам присвоен новый CvarcTag. Старый больше не активен."
                 : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -362,6 +372,7 @@ namespace UnityMVC.Controllers
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
+            RecreateCvarcTagSuccess
         }
 
         internal class ExternalLoginResult : ActionResult
