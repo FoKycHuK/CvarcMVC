@@ -5,10 +5,14 @@
     ViewBag.Title = "Плей-офф";
 }
 
+<style>tr:first-child td { border-top: none; } tbody:last-child td { border-bottom: none; } a:link {text-decoration: none; }</style>
+
 <h2>Результаты Плей-оффа</h2>
 
+Формат: левые очки для игрока в ячейке слева сверху, правые -- слева снизу соответственно. <br/>
+Если логи доступны, по клику на счет можно их скачать.
 
-<table>
+<table style="border: none">
     <tbody>
         @foreach (var line in @Model.lines)
         {
@@ -17,11 +21,11 @@
                 {
                     if (element.link == null)
                     {
-                        <td rowspan="@element.span">@element.text</td>
+                        <td style="border-left: none; border-right: none" rowspan="@element.span">@element.text</td>
                     }
                     else
                     {
-                        <td rowspan="@element.span">@Html.ActionLink(element.text, element.link, WebConstants.RelativeLogPath)</td>
+                        <td style="border-left: none; border-right: none" rowspan="@element.span">@Html.ActionLink(element.text, element.link, WebConstants.RelativeLogPath)</td>
                     }
                 }
             </tr>

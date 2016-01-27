@@ -180,10 +180,10 @@ namespace UnityMVC.Models
                 var game = GetGame(span/2, gameNum);
                 if (isScores)
                 {
-                    var text = game == null ? "" : game.LeftPlayerScores + " : " + game.RightPlayerScores;
+                    var text = game == null ? "Не сыграно" : game.LeftPlayerScores + " : " + game.RightPlayerScores;
                     return new Element(text, game == null ? null : game.LogFileName, span);
                 }
-                var winner = game == null ? "Не сыграно" : 
+                var winner = game == null ? "" : 
                     game.LeftPlayerScores > game.RightPlayerScores
                     ? game.LeftPlayerUserName
                     : game.RightPlayerUserName;
