@@ -77,14 +77,11 @@ namespace UnityMVC.Controllers
         public ActionResult Register(RegisterModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var allowedSymbols = "_ -.";
-            var allowedLetters = "qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапролджэячсмитьбю"; // я не использую char.IsLetter чтобы избежать арабских и подобных символов.
-            var allowedChars = allowedSymbols + allowedLetters + allowedLetters.ToUpper();
+            
             // Attempt to register the user
             try
             {
-                var username = model.UserName;
-                if (username.Any(ch => !allowedChars.Contains(ch)))
+                if (!RegisterModel.IsCorrectUserName(model.UserName))
                 {
                     ViewBag.Message =
                         "В имени пользователя допустимы только рус/англ буквы, точка, пробел, земля и дефис.";

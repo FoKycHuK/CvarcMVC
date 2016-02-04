@@ -1,0 +1,29 @@
+﻿@model UnityMVC.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Зарегистрировать пользователя";
+}
+
+<hgroup class="title">
+    <h2>Создать новый аккаунт</h2>
+</hgroup>
+
+@ViewBag.Message
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Регистрация</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.TextBoxFor(m => m.Password)
+            </li>
+        </ol>
+        <input type="submit" value="Зарегистрироваться" />
+    </fieldset>
+}

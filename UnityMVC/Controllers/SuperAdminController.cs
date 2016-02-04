@@ -16,7 +16,36 @@ namespace UnityMVC.Controllers
         {
             return View();
         }
-        
+
+        [HttpGet]
+        public ActionResult RegisterUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegisterUser(RegisterModel model)
+        {
+            if (WebSecurity.UserExists(model.UserName))
+            {
+                ViewBag.Message =
+                    "Такой пользователь уже есть!";
+                return View(model);
+            }
+            if (!RegisterModel.IsCorrectUserName(model.UserName))
+            {
+                ViewBag.Message =
+                    "В имени пользователя допустимы только рус/англ буквы, точка, пробел, земля и дефис.";
+                return View(model);
+            }
+            WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+            var context = new UsersContext();
+            context.UserProfiles.First(z => z.UserName == model.UserName).CvarcTag = Guid.NewGuid().ToString();
+            context.SaveChanges();
+            ViewBag.Message = "Аккаунт создан успешно";
+            return View();
+        }
+
         [HttpGet]
         public ActionResult DeleteUser()
         {

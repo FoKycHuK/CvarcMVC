@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
+using System.Linq;
 using System.Web.Security;
 
 namespace UnityMVC.Models
@@ -89,8 +90,15 @@ namespace UnityMVC.Models
         [Display(Name = "Подтверждение")]
         [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
         public string ConfirmPassword { get; set; }
-        [Required]
         public string Email { get; set; }
+
+        public static bool IsCorrectUserName(string username)
+        {
+            var allowedSymbols = "_ -.";
+            var allowedLetters = "qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапролджэячсмитьбюё"; // я не использую char.IsLetter чтобы избежать арабских и подобных символов.
+            var allowedChars = allowedSymbols + allowedLetters + allowedLetters.ToUpper();
+            return username.All(allowedChars.Contains);
+        }
     }
 
     public class ExternalLogin
