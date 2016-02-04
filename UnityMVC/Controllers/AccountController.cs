@@ -76,6 +76,8 @@ namespace UnityMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
+            if (!WebConstants.IsRegistrationAvailable)
+                return View();
             if (!ModelState.IsValid) return View(model);
             
             // Attempt to register the user

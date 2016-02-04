@@ -1,0 +1,25 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Множественная регистрация";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>@ViewBag.Message</div>
+<br/>
+Введите список пользователей в формате UserName;Password по одному в каждой строчке.
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <legend>Список</legend>
+        <ol>
+            <li>
+                @Html.TextArea("users", new { rows = 25})
+            </li>
+        </ol>
+        <input type="submit" value="Отправить" />
+    </fieldset>
+}

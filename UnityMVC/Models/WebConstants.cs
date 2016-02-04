@@ -16,5 +16,6 @@ namespace UnityMVC.Models
         public static string Gmail = "cvarc.team@gmail.com";
         public static string GmailPassword = "somePassword";
         public static int CountOfPlayoffPlayers = 16;
+        public static bool IsRegistrationAvailable = false; // not so constant, but...
     }
 }

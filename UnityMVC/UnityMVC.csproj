@@ -313,6 +313,7 @@
     <Content Include="Views\Results\GroupResults.cshtml" />
     <None Include="Views\Results\TournamentResult.cshtml" />
     <None Include="Views\SuperAdmin\CleanUp.cshtml" />
+    <None Include="Views\SuperAdmin\RegisterManyUsers.cshtml" />
     <None Include="Views\SuperAdmin\RegisterUser.cshtml" />
   </ItemGroup>
   <ItemGroup>

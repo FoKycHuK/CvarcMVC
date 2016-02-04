@@ -1,43 +1,51 @@
-﻿@model UnityMVC.Models.RegisterModel
+﻿@using UnityMVC.Models
+@model RegisterModel
 @{
     ViewBag.Title = "Регистрация";
 }
 
 <hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Создать новый аккаунт</h2>
+    <h1>Создать новый аккаунт</h1>
 </hgroup>
 
 <font color="red">@ViewBag.Message</font>
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+@if (WebConstants.IsRegistrationAvailable)
+{
+using (Html.BeginForm())
+ {
+     @Html.AntiForgeryToken()
+     @Html.ValidationSummary()
 
-    <fieldset>
-        <legend>Регистрация</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Email)
-                Пожалуйста, вводите действующий email. По нему мы будем отправлять вам только самую важную информацию. <br/>
-                Так же email используется для восстановления пароля.<br/>
-                @Html.TextBoxFor(m => m.Email)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
-        <input type="submit" value="Зарегистрироваться" />
-    </fieldset>
+     <fieldset>
+         <legend>Регистрация</legend>
+         <ol>
+             <li>
+                 @Html.LabelFor(m => m.UserName)
+                 @Html.TextBoxFor(m => m.UserName)
+             </li>
+             <li>
+                 @Html.LabelFor(m => m.Email)
+                 Пожалуйста, вводите действующий email. По нему мы будем отправлять вам только самую важную информацию. <br/>
+                 Так же email используется для восстановления пароля.<br/>
+                 @Html.TextBoxFor(m => m.Email)
+             </li>
+             <li>
+                 @Html.LabelFor(m => m.Password)
+                 @Html.PasswordFor(m => m.Password)
+             </li>
+             <li>
+                 @Html.LabelFor(m => m.ConfirmPassword)
+                 @Html.PasswordFor(m => m.ConfirmPassword)
+             </li>
+         </ol>
+         <input type="submit" value="Зарегистрироваться"/>
+     </fieldset>
+ }
+}
+else
+{
+    <div>К сожалению, регистрация сейчас закрыта.</div>
 }
 
 @section Scripts {

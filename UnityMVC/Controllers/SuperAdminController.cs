@@ -47,6 +47,42 @@ namespace UnityMVC.Controllers
         }
 
         [HttpGet]
+        public ActionResult RegisterManyUsers()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegisterManyUsers(string users)
+        {
+            var splited = users.Split('\n').Select(line => line.Split(';')).ToArray();
+            var uncorrect = splited.Where(s => 
+            s.Length != 2 ||
+            !RegisterModel.IsCorrectUserName(s[0]) || 
+            s[1].Length < 6 || 
+            WebSecurity.UserExists(s[0]))
+            .ToArray();
+            if (uncorrect.Any())
+            {
+                ViewBag.Message = "Что-то не так(пароль меньше 6 или не указан, в имени некорректные символы, пользователь уже сущ-вует) для пользователей: ";
+                foreach (var value in uncorrect)
+                    ViewBag.Message += string.Join(";", value);
+                return View();
+            }
+            foreach (var value in splited)
+                WebSecurity.CreateUserAndAccount(value[0], value[1]);
+            var userNames = splited.Select(s => s[0]);
+            var context = new UsersContext();
+            foreach (var value in context.UserProfiles.Where(u => userNames.Contains(u.UserName)))
+            {
+                value.CvarcTag = Guid.NewGuid().ToString();
+            }
+            context.SaveChanges();
+            ViewBag.Message = "Пользователи успешно зарегистрированы";
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult DeleteUser()
         {
             return View();
