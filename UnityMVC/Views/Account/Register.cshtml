@@ -8,6 +8,8 @@
     <h2>Создать новый аккаунт</h2>
 </hgroup>
 
+<font color="red">@ViewBag.Message</font>
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()

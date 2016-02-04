@@ -76,22 +76,30 @@ namespace UnityMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            var allowedSymbols = "_ -.";
+            var allowedLetters = "qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапролджэячсмитьбю"; // я не использую char.IsLetter чтобы избежать арабских и подобных символов.
+            var allowedChars = allowedSymbols + allowedLetters + allowedLetters.ToUpper();
+            // Attempt to register the user
+            try
             {
-                // Attempt to register the user
-                try
+                var username = model.UserName;
+                if (username.Any(ch => !allowedChars.Contains(ch)))
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {Email = model.Email});
-                    var context = new UsersContext();
-                    context.UserProfiles.First(z => z.UserName == model.UserName).CvarcTag = Guid.NewGuid().ToString();
-                    context.SaveChanges();
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.Message =
+                        "В имени пользователя допустимы только рус/англ буквы, точка, пробел, земля и дефис.";
+                    return View(model);
                 }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
+                WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {Email = model.Email});
+                var context = new UsersContext();
+                context.UserProfiles.First(z => z.UserName == model.UserName).CvarcTag = Guid.NewGuid().ToString();
+                context.SaveChanges();
+                WebSecurity.Login(model.UserName, model.Password);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (MembershipCreateUserException e)
+            {
+                ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
             }
 
             // If we got this far, something failed, redisplay form
