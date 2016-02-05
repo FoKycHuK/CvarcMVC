@@ -1,0 +1,29 @@
+﻿@model UnityMVC.Models.UserProfile
+
+@{
+    ViewBag.Title = "Ввод дополнительных данных";
+}
+
+<h2>Изменение дополнительной информации</h2>
+<br/>
+@ViewBag.Message
+<br/>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Список</legend>
+        <ol>
+            <li>
+                <h3>Email:</h3>
+                <div>Пожалуйста, указывайте действующий email. По нему вы сможете восстановить пароль, а так же мы будем сообщать вам важную информацию о соревновании.</div>
+                @Html.TextBox("email")
+            </li>
+            <li>
+                <h3>Ссылка на вашу страницу в любой социальной сети:</h3>
+                @Html.TextBox("socialLink")
+            </li>
+        </ol>
+        <input type="submit" value="Отправить" />
+    </fieldset>
+}

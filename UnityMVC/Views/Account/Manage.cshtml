@@ -20,7 +20,6 @@
 
 @using (Html.BeginForm("Manage", "Account"))
 {
-    @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
     if (!ViewBag.SolutionExists)
@@ -33,6 +32,11 @@
         <div>Вы можете загрузить другое решение @Html.ActionLink("здесь", "UploadSolution", "Results") (старое решение будет удалено).</div>
     }
 }
+
+<h3>Дополнительная информация</h3>
+<div>Текущий используемый Email: <b>@ViewBag.Email</b></div>
+<div>Текущая ссылка соц сети: <b>@ViewBag.SocialLink</b></div>
+@Html.ActionLink("Изменить", "SetAdditionalInfo")
 
 @if (ViewBag.HasLocalPassword)
 {

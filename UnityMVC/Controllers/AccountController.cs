@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Net.Mail;
 using System.Transactions;
@@ -220,10 +221,19 @@ namespace UnityMVC.Controllers
         {
             var context = new UsersContext();
             var user = context.UserProfiles.FirstOrDefault(z => z.UserName == User.Identity.Name);
+            if (!User.IsInRole("Admin") && !User.IsInRole("SuperAdmin") &&
+                (string.IsNullOrEmpty(user.Email) ||
+                 string.IsNullOrEmpty(user.SocialLink)))
+            {
+                ViewBag.Message = "Нам необходима следующая информация о вас:";
+                return RedirectToAction("SetAdditionalInfo");
+            }
 
             ViewBag.CvarcTag = (user == null || string.IsNullOrEmpty(user.CvarcTag))
                 ? "У вас нет кварк тега и вы не можете играть. Возможно, что-то пошло не так."
                 : user.CvarcTag;
+            ViewBag.Email = user.Email;
+            ViewBag.SocialLink = user.SocialLink;
             ViewBag.PlayedGames = new GameResultsContext().GameResults
                 .Where(r => r.LeftPlayerUserName == User.Identity.Name || r.RightPlayerUserName == User.Identity.Name)
                 .ToArray();
@@ -303,6 +313,54 @@ namespace UnityMVC.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult SetAdditionalInfo()
+        {
+            var user = new UsersContext().UserProfiles.First(u => u.UserName == User.Identity.Name);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult SetAdditionalInfo(string email, string socialLink)
+        {
+            /*Смысл примерно такой: если пользователь указал что-то -- меняем всегда.
+            Если не указал -- проверяем на то, что он уже не пустой.
+            Если он уже пустой -- принудительно просим ввести еще раз.
+            Если нет -- все норм*/
+            var context = new UsersContext();
+            var user = context.UserProfiles.First(u => u.UserName == User.Identity.Name);
+            bool changed = false;
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                user.Email = email;
+                changed = true;
+            }
+            else if (string.IsNullOrEmpty(user.Email))
+            {
+                ViewBag.Message = "Вам нужно указать email";
+                return View(user);
+            }
+
+            if (changed)
+                context.SaveChanges();
+
+            if (!string.IsNullOrEmpty(socialLink))
+            {
+                user.SocialLink = socialLink;
+                changed = true;
+            }
+            else if (string.IsNullOrEmpty(user.SocialLink))
+            {
+                ViewBag.Message = "Вам нужно указать ссылку на соц сеть";
+                return View(user);
+            }
+
+            if (changed)
+                context.SaveChanges();
+            return RedirectToAction("Manage");
         }
 
         //

@@ -57,7 +57,7 @@ namespace UnityMVC.Controllers
         {
             var splited = users.Split('\n').Select(line => line.Split(';')).ToArray();
             var uncorrect = splited.Where(s => 
-            s.Length != 2 ||
+            s.Length < 2 ||
             !RegisterModel.IsCorrectUserName(s[0]) || 
             s[1].Length < 6 || 
             WebSecurity.UserExists(s[0]))
@@ -73,9 +73,14 @@ namespace UnityMVC.Controllers
                 WebSecurity.CreateUserAndAccount(value[0], value[1]);
             var userNames = splited.Select(s => s[0]);
             var context = new UsersContext();
-            foreach (var value in context.UserProfiles.Where(u => userNames.Contains(u.UserName)))
+            foreach (var value in splited)
             {
-                value.CvarcTag = Guid.NewGuid().ToString();
+                var user = context.UserProfiles.First(u => u.UserName == value[0]);
+                user.CvarcTag = Guid.NewGuid().ToString();
+                if (value.Length > 2)
+                    user.Email = value[2];
+                if (value.Length > 3)
+                    user.SocialLink = value[3];
             }
             context.SaveChanges();
             ViewBag.Message = "Пользователи успешно зарегистрированы";

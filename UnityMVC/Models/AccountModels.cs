@@ -29,6 +29,7 @@ namespace UnityMVC.Models
         public string CvarcTag { get; set; }
         public DateTime? SolutionLoaded { get; set; }
         public string Email { get; set; }
+        public string SocialLink { get; set; }
     }
 
     public class RegisterExternalLoginModel
