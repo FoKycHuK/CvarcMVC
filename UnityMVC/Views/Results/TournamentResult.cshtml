@@ -9,8 +9,16 @@
 
 <h2>Результаты Плей-оффа</h2>
 
-Формат: левые очки для игрока в ячейке слева сверху, правые -- слева снизу соответственно. <br/>
-Если логи доступны, по клику на счет можно их скачать.
+@if (!@Model.ready)
+{
+    <div>Игры турнамента еще не прошли или не готовы для отображения</div>
+}
+else
+{
+    <div>
+        Формат: левые очки для игрока в ячейке слева сверху, правые -- слева снизу соответственно. <br />
+        Если логи доступны, по клику на счет можно их скачать.
+    </div>
 
 <table style="border: none">
     <tbody>
@@ -25,10 +33,18 @@
                     }
                     else
                     {
-                        <td style="border-left: none; border-right: none" rowspan="@element.span">@Html.ActionLink(element.text, element.link, WebConstants.RelativeLogPath)</td>
+                        if (!element.isPlayerName)
+                        {
+                            <td style="border-left: none; border-right: none" rowspan="@element.span">@Html.ActionLink(element.text, element.link, WebConstants.RelativeLogPath)</td>
+                        }
+                        else
+                        {
+                            <td style="border-left: none; border-right: none" rowspan="@element.span"><a href="@element.link">@element.text</a></td>
+                        }
                     }
                 }
             </tr>
         }
     </tbody>
 </table>
+}

@@ -55,7 +55,8 @@ namespace UnityMVC.Controllers
         [HttpPost]
         public ActionResult RegisterManyUsers(string users)
         {
-            var splited = users.Split('\n').Select(line => line.Split(';')).ToArray();
+            var splited = users.Split(new[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries)
+                .Where(l => !string.IsNullOrEmpty(l)).Select(line => line.Split(';')).ToArray();
             var uncorrect = splited.Where(s => 
             s.Length < 2 ||
             !RegisterModel.IsCorrectUserName(s[0]) || 
@@ -69,13 +70,15 @@ namespace UnityMVC.Controllers
                     ViewBag.Message += string.Join(";", value);
                 return View();
             }
+            ViewBag.Message = "";
             foreach (var value in splited)
-                WebSecurity.CreateUserAndAccount(value[0], value[1]);
+                ViewBag.Message += WebSecurity.CreateUserAndAccount(value[0], value[1]);
             var userNames = splited.Select(s => s[0]);
             var context = new UsersContext();
             foreach (var value in splited)
             {
-                var user = context.UserProfiles.First(u => u.UserName == value[0]);
+                var name = value[0];
+                var user = context.UserProfiles.First(u => u.UserName == name);
                 user.CvarcTag = Guid.NewGuid().ToString();
                 if (value.Length > 2)
                     user.Email = value[2];

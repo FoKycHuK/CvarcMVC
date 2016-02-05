@@ -349,6 +349,8 @@ namespace UnityMVC.Controllers
 
             if (!string.IsNullOrEmpty(socialLink))
             {
+                if (!socialLink.StartsWith("http"))
+                    socialLink = "http://" + socialLink;
                 user.SocialLink = socialLink;
                 changed = true;
             }

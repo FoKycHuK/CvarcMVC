@@ -8,7 +8,14 @@
 
 <div>@ViewBag.Message</div>
 <br/>
-Введите список пользователей по одному в каждой строчке. Формат: <font color="red">UserName;Password[;Email[;SocialNetLink]]</font>
+Введите список пользователей по одному в каждой строчке. Допустимые форматы:
+<h3><font color="gray">
+    <font color="blue">UserName</font>;<font color="blue">Password</font>
+    <br/>
+    <font color="blue">UserName</font>;<font color="blue">Password</font>;<font color="blue">Email</font>
+    <br/>
+    <font color="blue">UserName</font>;<font color="blue">Password</font>;<font color="blue">Email</font>;<font color="blue">SocialNetLink</font>
+</font></h3>
 
 @using (Html.BeginForm())
 {

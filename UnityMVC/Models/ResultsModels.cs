@@ -135,6 +135,7 @@ namespace UnityMVC.Models
     {
         IReadOnlyList<GameResults> results;
         public Element[][] lines;
+        public bool ready;
         private int totalPlayers;
         private GameResults[] lowBracketGames; //first round
         public TournamentResults(IReadOnlyList<GameResults> tournamentResults, int totalPlayers)
@@ -147,6 +148,9 @@ namespace UnityMVC.Models
                 .Where(r => r.Subtype == lowestRoundSubtag)
                 .OrderBy(r => r.Time)
                 .ToArray();
+            if (lowBracketGames.Length != totalPlayers/2)
+                return;
+            ready = true;
 
             lines = Enumerable.Range(0, totalPlayers).Select(GetLineByIndex).ToArray();
         }
@@ -172,6 +176,12 @@ namespace UnityMVC.Models
             return index % span == 0;
         }
 
+        private string GetLink(string username)
+        {
+            var user = new UsersContext().UserProfiles.FirstOrDefault(u => u.UserName == username);
+            return user == null ? null : user.SocialLink;
+        }
+
         private Element GetElementByIndex(int index, int span, bool isScores)
         {
             if (span > 1)
@@ -181,18 +191,18 @@ namespace UnityMVC.Models
                 if (isScores)
                 {
                     var text = game == null ? "Не сыграно" : game.LeftPlayerScores + " : " + game.RightPlayerScores;
-                    return new Element(text, game == null ? null : game.LogFileName, span);
+                    return new Element(text, game == null ? null : game.LogFileName, span, false);
                 }
                 var winner = game == null ? "" : 
                     game.LeftPlayerScores > game.RightPlayerScores
                     ? game.LeftPlayerUserName
                     : game.RightPlayerUserName;
-                return new Element(winner, null, span);
+                return new Element(winner, GetLink(winner), span, true);
             }
             var num = index/2;
             var lowBracketGame = lowBracketGames[num];
             var firstRoundPlayer = index%2 == 0 ? lowBracketGame.LeftPlayerUserName : lowBracketGame.RightPlayerUserName;
-            return new Element(firstRoundPlayer, null, span);
+            return new Element(firstRoundPlayer, GetLink(firstRoundPlayer), span, true);
         }
 
         private GameResults GetGame(int span, int number)
@@ -219,41 +229,20 @@ namespace UnityMVC.Models
             (r.LeftPlayerUserName == player2 && r.RightPlayerUserName == player1));
         }
 
-        //private void Madness()
-        //{
-        //    var maxDegree = 0;
-        //    var curTotalPlayers = totalPlayers;
-        //    while (curTotalPlayers > 1)
-        //    {
-        //        maxDegree++;
-        //        curTotalPlayers /= 2;
-        //    }
-
-        //    var division = 2;
-        //    var listOfSubtags = new List<string> {"1"};
-        //    for (var _ = 0; _ < maxDegree; _++)
-        //    {
-        //        listOfSubtags.Add("1/" + division);
-        //        division *= 2;
-        //    }
-        //    listOfSubtags.Reverse();
-        //    spanBySubtag = new Dictionary<string, int>();
-
-        //    var multipler = 1;
-        //}
-
         public class Element
         {
-            public Element(string text, string link, int span)
+            public Element(string text, string link, int span, bool isPlayerName)
             {
                 this.text = text;
                 this.link = link;
                 this.span = span;
+                this.isPlayerName = isPlayerName;
             }
 
             public readonly int span;
             public readonly string text;
             public readonly string link;
+            public readonly bool isPlayerName;
         }
     }
 }
