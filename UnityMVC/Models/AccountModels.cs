@@ -32,6 +32,15 @@ namespace UnityMVC.Models
         public string SocialLink { get; set; }
     }
 
+    public static class UsersConverter
+    {
+        public static string GetLinkForUser(string username)
+        {
+            var user = new UsersContext().UserProfiles.FirstOrDefault(u => u.UserName == username);
+            return user == null ? null : user.SocialLink;
+        }
+    }
+
     public class RegisterExternalLoginModel
     {
         [Required]

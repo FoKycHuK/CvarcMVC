@@ -27,7 +27,7 @@ else
             <th bgcolor="gray"></th>
             @foreach (var player in Model.GetAllPlayersForGroup(groupName))
             {
-                <th><b>@player</b></th>
+                <th><a style="text-decoration: none" href="@UsersConverter.GetLinkForUser(player)"><b>@player</b></a></th>
             }
             <th>Всего очков для игрока</th>
         </tr>
@@ -36,7 +36,7 @@ else
         @foreach (var columnPlayer in Model.GetAllPlayersForGroup(groupName))
         {
             <tr>
-                <td><b>@columnPlayer</b></td>
+                <td><a style="text-decoration: none" href="@UsersConverter.GetLinkForUser(columnPlayer)"><b>@columnPlayer</b></a></td>
                 @foreach (var rowPlayer in Model.GetAllPlayersForGroup(groupName))
                 {
                     if (columnPlayer == rowPlayer)

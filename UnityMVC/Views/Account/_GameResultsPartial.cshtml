@@ -18,6 +18,7 @@
                     <th>Правый игрок</th>
                     <th>Лог игры</th>
                     <th>Тип</th>
+                    <th>Подтип</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,10 +26,11 @@
                 {
                     <tr>
                         <td>@result.Time.ToString()</td>
-                        <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
-                        <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
+                        <td><a style="text-decoration: none" href="@UsersConverter.GetLinkForUser(result.LeftPlayerUserName)">@result.LeftPlayerUserName</a> (@result.LeftPlayerScores очков)</td>
+                        <td><a style="text-decoration: none" href="@UsersConverter.GetLinkForUser(result.RightPlayerUserName)">@result.RightPlayerUserName</a> (@result.RightPlayerScores очков)</td>
                         <td>@Html.ActionLink("Скачать", result.LogFileName, WebConstants.RelativeLogPath)</td>
                         <td>@result.Type</td>
+                        <td>@result.Subtype</td>
                     </tr>
                 }
             </tbody>
