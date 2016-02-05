@@ -2,8 +2,8 @@
     ViewBag.Title = "Присвоить права администратора";
 }
 @ViewBag.ReturnMessage
-<p>Это действие доступно только для SuperAdmin</p>
 <h2>Сделать пользователя администратором</h2>
+<br/>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -17,9 +17,9 @@
     </p>
     <p>
         Полный доступ: @Html.CheckBox("SuperAdminAccess")
-        Полный доступ дает доступ к админ панели.
+        <div>Эта галочка доступна только для SuperAdmin.</div>
     </p>
     
-    <input type="submit" value="Принять" />
+    <input type="submit" value="Применить" />
 }
 

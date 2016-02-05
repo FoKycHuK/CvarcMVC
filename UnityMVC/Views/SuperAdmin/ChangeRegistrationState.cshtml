@@ -1,0 +1,18 @@
+﻿@using UnityMVC.Models
+@{
+    ViewBag.Title = "Изменение статуса регистрации";
+}
+
+<h2>@ViewBag.Title</h2>
+
+Регистрация сейчас
+@if (WebConstants.IsRegistrationAvailable)
+{
+    <b>включена</b>
+}
+else
+{
+    <b>отключена</b>
+}
+<br/>
+@Html.ActionLink("Сменить статус", "ChangeState")

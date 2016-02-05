@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using UnityMVC.Models;
+using WebGrease.Css;
 using WebMatrix.WebData;
 
 namespace UnityMVC.Controllers
@@ -129,13 +130,17 @@ namespace UnityMVC.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdmin")]
         public ActionResult GrantAdminAccess(FormCollection collection)
         {
             var userToGrant = collection["UserName"];
             try
             {
                 var superAdmin = bool.Parse(collection["SuperAdminAccess"].Split(',')[0]);
+                if (superAdmin && !Roles.IsUserInRole("SuperAdmin"))
+                {
+                    ViewBag.ReturnMessage = "Вы не обладаете правами супер-администратора и не можете их давать";
+                    return View();
+                }
                 var roleToGrant = superAdmin ? "SuperAdmin" : "Admin";
                 if (WebSecurity.UserExists(userToGrant))
                 {
@@ -155,6 +160,17 @@ namespace UnityMVC.Controllers
                 ViewBag.ReturnMessage = "Неизвсестная ошибка при назначении прав.";
             }
             return View();
+        }
+
+        public ActionResult ChangeRegistrationState()
+        {
+            return View();
+        }
+
+        public ActionResult ChangeState()
+        {
+            WebConstants.IsRegistrationAvailable = !WebConstants.IsRegistrationAvailable;
+            return RedirectToAction("ChangeRegistrationState");
         }
 
         public ActionResult Delete(int gameId)
