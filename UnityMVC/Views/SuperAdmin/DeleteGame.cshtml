@@ -1,0 +1,47 @@
+﻿@using UnityMVC.Models
+@model UnityMVC.Models.GameResults[]
+
+@{
+    ViewBag.Title = "Удаление игры";
+}
+
+<h2>Удалить результаты игры</h2>
+
+@ViewBag.Message
+
+<article>
+    @if (Model != null && Model.Length > 0)
+    {
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Время</th>
+                <th>Левый игрок</th>
+                <th>Правый игрок</th>
+                <th>Тэг</th>
+                <th>Подтэг</th>
+                <th>Удаление</th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (GameResults result in Model)
+                {
+                    <tr>
+                        <td>@result.Id</td>
+                        <td>@result.Time.ToString()</td>
+                        <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
+                        <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
+                        <td>@result.Type</td>
+                        <td>@result.Subtype</td>
+                        <td>@Html.ActionLink("Удалить", "Delete", "SuperAdmin", new {gameId = result.Id}, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h4>На данный момент не было ни одной игры.</h4>
+    }
+</article>

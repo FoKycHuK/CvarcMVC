@@ -157,6 +157,26 @@ namespace UnityMVC.Controllers
             return View();
         }
 
+        public ActionResult Delete(int gameId)
+        {
+            var context = new GameResultsContext();
+            var game = context.GameResults.FirstOrDefault(r => r.Id == gameId);
+            if (game == null)
+            {
+                ViewBag.Message = "игра не найдена";
+                return RedirectToAction("DeleteGame");
+            }
+            context.GameResults.Remove(game);
+            context.SaveChanges();
+            ViewBag.Message = "Игра удалена";
+            return RedirectToAction("DeleteGame");
+        }
+        
+        public ActionResult DeleteGame()
+        {
+            return View(new GameResultsContext().GameResults.ToArray().Reverse().ToArray());
+        }
+
         [HttpGet]
         public ActionResult CleanUp()
         {
