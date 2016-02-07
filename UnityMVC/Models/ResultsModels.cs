@@ -70,10 +70,10 @@ namespace UnityMVC.Models
         {
             return results.FirstOrDefault(r =>
                 r.Subtype == group &&
-                (r.LeftPlayerUserName == player1 &&
+                ((r.LeftPlayerUserName == player1 &&
                 r.RightPlayerUserName == player2) ||
                 (r.LeftPlayerUserName == player2 &&
-                r.RightPlayerUserName == player1));
+                r.RightPlayerUserName == player1)));
         }
 
         public string GetLineForPair(string player1, string player2, string group)
@@ -119,14 +119,14 @@ namespace UnityMVC.Models
                     {
                         var gamesCount = results.Count(r =>
                             r.Subtype == group &&
-                            (r.LeftPlayerUserName == player1 &&
+                            ((r.LeftPlayerUserName == player1 &&
                             r.RightPlayerUserName == player2) ||
                             (r.LeftPlayerUserName == player2 &&
-                            r.RightPlayerUserName == player1));
+                            r.RightPlayerUserName == player1)));
                         if (player1 == player2 && gamesCount > 0)
                             throw new Exception("Игрок " + player1 + " играл сам с собой!");
                         if (gamesCount > 1)
-                            throw new Exception("Игроки " + player1 + " и " + player2 + " играли между собой более одного раза!");
+                            throw new Exception("Игроки " + player1 + " и " + player2 + " играли между собой более одного раза! ");
                     }
         }
     }
