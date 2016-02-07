@@ -81,9 +81,19 @@ namespace UnityMVC.Filters
                 WebSecurity.CreateUserAndAccount("test4", "qweqwe");
                 WebSecurity.CreateUserAndAccount("test5", "qweqwe");
                 WebSecurity.CreateUserAndAccount("test6", "qweqwe");
+                WebSecurity.CreateUserAndAccount("Buggy_bot", "qweqwe");
+                WebSecurity.CreateUserAndAccount("Aggro_bot", "qweqwe");
+                WebSecurity.CreateUserAndAccount("Standing_bot", "qweqwe");
+                WebSecurity.CreateUserAndAccount("Correct_bot", "qweqwe");
                 var userContext = new UsersContext();
                 userContext.UserProfiles.First(u => u.UserName == "test0").CvarcTag = "00000000-0000-0000-0000-000000000000";
                 userContext.UserProfiles.First(u => u.UserName == "test1").CvarcTag = "00000000-0000-0000-0000-000000000001";
+                userContext.UserProfiles.First(u => u.UserName == "test2").CvarcTag = "00000000-0000-0000-0000-000000000002";
+                userContext.UserProfiles.First(u => u.UserName == "test3").CvarcTag = "00000000-0000-0000-0000-000000000003";
+                userContext.UserProfiles.First(u => u.UserName == "Buggy_bot").CvarcTag = "00000000-0000-0000-0000-000000000005";
+                userContext.UserProfiles.First(u => u.UserName == "Aggro_bot").CvarcTag = "00000000-0000-0000-0000-000000000006";
+                userContext.UserProfiles.First(u => u.UserName == "Standing_bot").CvarcTag = "00000000-0000-0000-0000-000000000007";
+                userContext.UserProfiles.First(u => u.UserName == "Correct_bot").CvarcTag = "00000000-0000-0000-0000-000000000008";
                 userContext.SaveChanges();
             }
         }

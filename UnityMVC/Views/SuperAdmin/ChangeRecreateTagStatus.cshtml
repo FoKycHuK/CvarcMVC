@@ -1,0 +1,18 @@
+﻿@using UnityMVC.Models
+@{
+    ViewBag.Title = "Изменение возможности пересоздания CvarcTag";
+}
+
+<h2>@ViewBag.Title</h2>
+
+Пересоздание CvarcTag сейчас
+@if (WebConstants.IsRecreateTagAvailable)
+{
+    <b>включено</b>
+}
+else
+{
+    <b>отключено</b>
+}
+<br />
+@Html.ActionLink("Сменить статус", "ChangeTagStatus")

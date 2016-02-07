@@ -162,6 +162,17 @@ namespace UnityMVC.Controllers
             return View();
         }
 
+        public ActionResult ChangeRecreateTagStatus()
+        {
+            return View();
+        }
+
+        public ActionResult ChangeTagStatus()
+        {
+            WebConstants.IsRecreateTagAvailable = !WebConstants.IsRecreateTagAvailable;
+            return RedirectToAction("ChangeRecreateTagStatus");
+        }
+
         public ActionResult ChangeRegistrationState()
         {
             return View();

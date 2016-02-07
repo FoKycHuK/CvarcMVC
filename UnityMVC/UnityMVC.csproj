@@ -313,6 +313,7 @@
     <Content Include="Views\Results\GroupResults.cshtml" />
     <None Include="Views\Account\SetAdditionalInfo.cshtml" />
     <None Include="Views\Results\TournamentResult.cshtml" />
+    <None Include="Views\SuperAdmin\ChangeRecreateTagStatus.cshtml" />
     <None Include="Views\SuperAdmin\ChangeRegistrationState.cshtml" />
     <None Include="Views\SuperAdmin\CleanUp.cshtml" />
     <None Include="Views\SuperAdmin\DeleteGame.cshtml" />

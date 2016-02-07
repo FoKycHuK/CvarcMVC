@@ -17,5 +17,6 @@ namespace UnityMVC.Models
         public static string GmailPassword = "somePassword";
         public static int CountOfPlayoffPlayers = 16;
         public static bool IsRegistrationAvailable = false; // not so constant, but...
+        public static bool IsRecreateTagAvailable = true;
     }
 }

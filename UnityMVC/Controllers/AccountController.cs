@@ -148,6 +148,8 @@ namespace UnityMVC.Controllers
 
         public ActionResult RecreateCvarcTag()
         {
+            if (!WebConstants.IsRecreateTagAvailable)
+                return RedirectToAction("Manage", new {Message = ManageMessageId.RecreateCvarcTagFail});
             var context = new UsersContext();
             context.UserProfiles.First(u => u.UserName == User.Identity.Name).CvarcTag = Guid.NewGuid().ToString();
             context.SaveChanges();
@@ -241,6 +243,7 @@ namespace UnityMVC.Controllers
                 : message == ManageMessageId.SetPasswordSuccess ? "Ваш пароль установлен."
                 : message == ManageMessageId.RemoveLoginSuccess ? "Дополнительный способ входа удален."
                 : message == ManageMessageId.RecreateCvarcTagSuccess ? "Вам присвоен новый CvarcTag. Старый больше не активен."
+                : message == ManageMessageId.RecreateCvarcTagFail ? "Вы не можете сейчас пересоздать свой CvarcTag. Вероятно, потому что турнир уже начался"
                 : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -506,7 +509,8 @@ namespace UnityMVC.Controllers
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
-            RecreateCvarcTagSuccess
+            RecreateCvarcTagSuccess,
+            RecreateCvarcTagFail
         }
 
         internal class ExternalLoginResult : ActionResult
