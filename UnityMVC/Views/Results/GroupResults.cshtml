@@ -45,10 +45,19 @@ else
                     }
                     else
                     {
-                        <td>@Html.ActionLink(
-                                Model.GetLineForPair(columnPlayer, rowPlayer, groupName),
-                                Model.GetLogPathForPair(columnPlayer, rowPlayer, groupName),
-                                WebConstants.RelativeLogPath)
+                        <td>
+                            @foreach (var gameResult in Model.GetGamesForPair(columnPlayer, rowPlayer, groupName))
+                            {
+                                if (string.IsNullOrEmpty(gameResult.Link))
+                                {
+                                    <a>@gameResult.Line</a>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(gameResult.Line, gameResult.Link, WebConstants.RelativeLogPath)
+                                }
+                                <br/>
+                            }
                         </td>
                     }
                 }

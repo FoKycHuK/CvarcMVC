@@ -41,9 +41,21 @@ namespace UnityMVC.Models
         public DateTime? UpTime { get; set; }
     }
 
+    public class GroupGameResult
+    {
+        public readonly string Line;
+        public readonly string Link;
+
+        public GroupGameResult(string line, string link = null)
+        {
+            Line = line;
+            Link = link;
+        }
+    }
+
     public class GroupResults
     {
-        IReadOnlyList<GameResults> results;
+        readonly IReadOnlyList<GameResults> results;
         public GroupResults(IReadOnlyList<GameResults> groupResults)
         {
             results = groupResults;
@@ -66,38 +78,40 @@ namespace UnityMVC.Models
                 .OrderByDescending(p => GetTotalScoreForPlayer(p, group));
         }
 
-        public GameResults GetResultForPair(string player1, string player2, string group)
+        public GameResults[] GetResultsForPair(string player1, string player2, string group)
         {
-            return results.FirstOrDefault(r =>
+            return results.Where(r =>
                 r.Subtype == group &&
                 ((r.LeftPlayerUserName == player1 &&
                 r.RightPlayerUserName == player2) ||
                 (r.LeftPlayerUserName == player2 &&
-                r.RightPlayerUserName == player1)));
+                r.RightPlayerUserName == player1)))
+                .ToArray();
         }
 
-        public string GetLineForPair(string player1, string player2, string group)
+        public GroupGameResult[] GetGamesForPair(string player1, string player2, string group)
         {
             if (player1 == player2)
                 return null;
-            var game = GetResultForPair(player1, player2, group);
-            if (game == null)
-                return "Не сыграно";
-            var shortUserName1 = player1.Length > 3
-                ? player1.Substring(0, 3) : player1;
-            var shortUserName2 = player2.Length > 3
-                ? player2.Substring(0, 3) : player2;
-            var player1score = game.LeftPlayerUserName == player1 ? game.LeftPlayerScores : game.RightPlayerScores;
-            var player2score = game.LeftPlayerUserName == player2 ? game.LeftPlayerScores : game.RightPlayerScores;
+            var games = GetResultsForPair(player1, player2, group);
+            if (games.Length == 0)
+                return new [] {new GroupGameResult("Не сыграно")};
+            var results = new List<GroupGameResult>();
+            foreach (var game in games)
+            {
+                var player1score = game.LeftPlayerUserName == player1 ? game.LeftPlayerScores : game.RightPlayerScores;
+                var player2score = game.LeftPlayerUserName == player2 ? game.LeftPlayerScores : game.RightPlayerScores;
+                results.Add(new GroupGameResult(player1score+ " : " + player2score, game.LogFileName));
+            }
 
-            return player1score + " : " + player2score;
+            return results.ToArray();
         }
 
-        public string GetLogPathForPair(string player1, string player2, string group)
-        {
-            var game = GetResultForPair(player1, player2, group);
-            return game == null ? "404" : game.LogFileName;
-        }
+        //public string GetLogPathForPair(string player1, string player2, string group)
+        //{
+        //    var game = GetResultForPair(player1, player2, group);
+        //    return game == null ? "404" : game.LogFileName;
+        //}
 
         public int GetTotalScoreForPlayer(string player, string group)
         {
@@ -125,8 +139,6 @@ namespace UnityMVC.Models
                             r.RightPlayerUserName == player1)));
                         if (player1 == player2 && gamesCount > 0)
                             throw new Exception("Игрок " + player1 + " играл сам с собой!");
-                        if (gamesCount > 1)
-                            throw new Exception("Игроки " + player1 + " и " + player2 + " играли между собой более одного раза! ");
                     }
         }
     }
