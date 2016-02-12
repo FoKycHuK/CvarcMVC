@@ -317,6 +317,7 @@
     <None Include="Views\SuperAdmin\ChangeRegistrationState.cshtml" />
     <None Include="Views\SuperAdmin\CleanUp.cshtml" />
     <None Include="Views\SuperAdmin\DeleteGame.cshtml" />
+    <None Include="Views\SuperAdmin\DeleteGamesByFilter.cshtml" />
     <None Include="Views\SuperAdmin\RegisterManyUsers.cshtml" />
     <None Include="Views\SuperAdmin\RegisterUser.cshtml" />
   </ItemGroup>

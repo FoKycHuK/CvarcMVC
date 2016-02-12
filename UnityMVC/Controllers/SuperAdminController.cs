@@ -162,6 +162,40 @@ namespace UnityMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult DeleteGamesByFilter()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteGamesByFilter(FormCollection collection)
+        {
+            var gameContext = new GameResultsContext();
+            var contextChanged = false;
+            double minutesToDelete;
+            if (double.TryParse(collection["Time"], out minutesToDelete))
+            {
+                var timeToDeleteFrom = DateTime.Now - TimeSpan.FromMinutes(minutesToDelete);
+                var gamesToDeleteByTime = gameContext.GameResults.Where(r => r.Time > timeToDeleteFrom).ToArray();
+                contextChanged = gamesToDeleteByTime.Length > 0;
+                foreach (var game in gamesToDeleteByTime)
+                    gameContext.GameResults.Remove(game);
+            }
+
+            string tag = collection["Tag"];
+            string subtag = collection["Subtag"];
+            var gamesToDelete = string.IsNullOrEmpty(subtag)
+                ? gameContext.GameResults.Where(r => r.Type == tag).ToArray()
+                : gameContext.GameResults.Where(r => r.Type == tag && r.Subtype == subtag).ToArray();
+            contextChanged = contextChanged || gamesToDelete.Length > 0;
+            foreach (var game in gamesToDelete)
+                gameContext.GameResults.Remove(game);
+            if (contextChanged)
+                gameContext.SaveChanges();
+            return View();
+        }
+
         public ActionResult ChangeRecreateTagStatus()
         {
             return View();
