@@ -27,14 +27,10 @@ namespace UnityMVC
             AuthConfig.RegisterAuth();
 
             Database.SetInitializer<UnityContext>(new InitUnityDb());
-        }
 
-        private void DatabaseInit()
-        {
-            var context = new UnityContext();
-            context.UserProfiles.ToArray();
-            context.GameResults.ToArray();
-            context.UnityStatus.ToArray();
-        } 
+            //initialize now
+            //это позволяет отлавливать ошибки с БД сразу же, а не потом.
+            new UnityContext().UnityStatus.ToArray();
+        }
     }
 }
