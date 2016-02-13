@@ -26,10 +26,15 @@ namespace UnityMVC
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            Database.SetInitializer<GameResultsContext>(new InitGameResultsDB());
-            Database.SetInitializer<UnityStatusContext>(new UnityStatusDB());
-            new GameResultsContext().GameResults.ToArray();
-            new UnityStatusContext().UnityStatus.ToArray();
+            Database.SetInitializer<UnityContext>(new InitUnityDb());
         }
+
+        private void DatabaseInit()
+        {
+            var context = new UnityContext();
+            context.UserProfiles.ToArray();
+            context.GameResults.ToArray();
+            context.UnityStatus.ToArray();
+        } 
     }
 }

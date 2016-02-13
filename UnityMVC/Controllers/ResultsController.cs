@@ -12,18 +12,18 @@ namespace UnityMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View(new GameResultsContext().GameResults.Where(r => r.Type == "training").ToArray());
+            return View(new UnityContext().GameResults.Where(r => r.Type == "training").ToArray());
         }
 
         public ActionResult GroupResults()
         {
-            var collection = new GameResultsContext().GameResults.Where(r => r.Type == "group");
+            var collection = new UnityContext().GameResults.Where(r => r.Type == "group");
             return View(new GroupResults(collection.ToList()));
         }
 
         public ActionResult TournamentResult()
         {
-            var collection = new GameResultsContext().GameResults.Where(r => r.Type == "tournament");
+            var collection = new UnityContext().GameResults.Where(r => r.Type == "tournament");
             return View(new TournamentResults(collection.ToList(), WebConstants.CountOfPlayoffPlayers));
         }
 
@@ -32,11 +32,11 @@ namespace UnityMVC.Controllers
             
             if (password != WebConstants.WebPassword)
                 return new ContentResult { Content = "Password fail" };
-            var users = new UsersContext().UserProfiles.ToArray();
+            var users = new UnityContext().UserProfiles.ToArray();
             var tags = users.Select(u => u.CvarcTag).ToArray();
             if (!tags.Contains(leftTag) || !tags.Contains(rightTag))
                 return new ContentResult {Content = "tag fail"};
-            var context = new GameResultsContext();
+            var context = new UnityContext();
             context.GameResults.Add(new GameResults
             {
                 Time = DateTime.Now,
@@ -68,7 +68,7 @@ namespace UnityMVC.Controllers
         {
             if (password != WebConstants.WebPassword)
                 return new ContentResult {Content = "password fail"};
-            var context = new UnityStatusContext();
+            var context = new UnityContext();
             var status = context.UnityStatus.First();
             if (status.Online == isOnline)
                 return new ContentResult {Content = "already know!"};
@@ -88,7 +88,7 @@ namespace UnityMVC.Controllers
                                  System.IO.File.Exists(baseFileName + ".rar");
             if (solutionExists)
             {
-                var time = new UsersContext().UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded;
+                var time = new UnityContext().UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded;
                 string valueToDisplay = time == null ? "неизвестно" : time.ToString();
                 ViewBag.Message = "Ваше решение уже загружено. Время загрузки " +
                                   valueToDisplay +
@@ -120,7 +120,7 @@ namespace UnityMVC.Controllers
             }
             var expectedFileName = User.Identity.Name + "." + extention;
             simpleFileView.UploadedFile.SaveAs(path + expectedFileName);
-            var context = new UsersContext();
+            var context = new UnityContext();
             context.UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded = DateTime.Now;
             context.SaveChanges();
             ViewBag.Message = "Решение было загружено успешно!";

@@ -19,20 +19,6 @@ namespace UnityMVC.Models
         public string Subtype { get; set; }
     }
 
-    public class GameResultsContext : DbContext
-    {
-        public GameResultsContext() : base("GameResultsContext")
-        {
-        }
-
-        public DbSet<GameResults> GameResults { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
-    }
-
     public class UnityStatistics
     {
         public bool IsOnline { get; set; }
@@ -190,7 +176,7 @@ namespace UnityMVC.Models
 
         private string GetLink(string username)
         {
-            var user = new UsersContext().UserProfiles.FirstOrDefault(u => u.UserName == username);
+            var user = new UnityContext().UserProfiles.FirstOrDefault(u => u.UserName == username);
             return user == null ? null : user.SocialLink;
         }
 

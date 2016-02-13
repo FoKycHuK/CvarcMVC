@@ -13,18 +13,4 @@ namespace UnityMVC.Models
         public bool Online { get; set; }
         public DateTime? UpTime { get; set; }
     }
-
-    public class UnityStatusContext : DbContext
-    {
-        public UnityStatusContext() : base("UnityStatusContext")
-        {
-        }
-
-        public DbSet<UnityStatus> UnityStatus { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
-    }
 }

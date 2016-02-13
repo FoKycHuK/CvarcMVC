@@ -11,13 +11,11 @@ using System.Web.Services.Description;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using UnityMVC.Filters;
 using UnityMVC.Models;
 
 namespace UnityMVC.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         //
@@ -86,7 +84,7 @@ namespace UnityMVC.Controllers
                     return View(model);
                 }
                 WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {Email = model.Email});
-                var context = new UsersContext();
+                var context = new UnityContext();
                 context.UserProfiles.First(z => z.UserName == model.UserName).CvarcTag = Guid.NewGuid().ToString();
                 context.SaveChanges();
                 WebSecurity.Login(model.UserName, model.Password);
@@ -111,7 +109,7 @@ namespace UnityMVC.Controllers
         [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string email)
         {
-            var user = new UsersContext().UserProfiles.FirstOrDefault(u => u.Email == email);
+            var user = new UnityContext().UserProfiles.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
                 ViewBag.Message = "Пользователя с таким email не существует.";
@@ -150,7 +148,7 @@ namespace UnityMVC.Controllers
         {
             if (!WebConstants.IsRecreateTagAvailable)
                 return RedirectToAction("Manage", new {Message = ManageMessageId.RecreateCvarcTagFail});
-            var context = new UsersContext();
+            var context = new UnityContext();
             context.UserProfiles.First(u => u.UserName == User.Identity.Name).CvarcTag = Guid.NewGuid().ToString();
             context.SaveChanges();
             return RedirectToAction("Manage", new {Message = ManageMessageId.RecreateCvarcTagSuccess});
@@ -216,7 +214,7 @@ namespace UnityMVC.Controllers
 
         public ActionResult Manage(ManageMessageId? message)
         {
-            var context = new UsersContext();
+            var context = new UnityContext();
             var user = context.UserProfiles.FirstOrDefault(z => z.UserName == User.Identity.Name);
             if (!User.IsInRole("Admin") && !User.IsInRole("SuperAdmin") &&
                 (string.IsNullOrEmpty(user.Email) ||
@@ -231,7 +229,7 @@ namespace UnityMVC.Controllers
                 : user.CvarcTag;
             ViewBag.Email = user.Email;
             ViewBag.SocialLink = user.SocialLink;
-            ViewBag.PlayedGames = new GameResultsContext().GameResults
+            ViewBag.PlayedGames = context.GameResults
                 .Where(r => r.LeftPlayerUserName == User.Identity.Name || r.RightPlayerUserName == User.Identity.Name)
                 .ToArray();
             ViewBag.SolutionLoadedTime = user.SolutionLoaded == null ? "неизвестно" : user.SolutionLoaded.ToString();
@@ -316,7 +314,7 @@ namespace UnityMVC.Controllers
         [HttpGet]
         public ActionResult SetAdditionalInfo()
         {
-            var user = new UsersContext().UserProfiles.First(u => u.UserName == User.Identity.Name);
+            var user = new UnityContext().UserProfiles.First(u => u.UserName == User.Identity.Name);
             return View(user);
         }
 
@@ -327,7 +325,7 @@ namespace UnityMVC.Controllers
             Если не указал -- проверяем на то, что он уже не пустой.
             Если он уже пустой -- принудительно просим ввести еще раз.
             Если нет -- все норм*/
-            var context = new UsersContext();
+            var context = new UnityContext();
             var user = context.UserProfiles.First(u => u.UserName == User.Identity.Name);
             bool changed = false;
 
@@ -426,7 +424,7 @@ namespace UnityMVC.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new user into the database
-                using (UsersContext db = new UsersContext())
+                using (UnityContext db = new UnityContext())
                 {
                     UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                     // Check if user already exists

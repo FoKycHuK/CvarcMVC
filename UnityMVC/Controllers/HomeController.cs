@@ -26,7 +26,7 @@ namespace UnityMVC.Controllers
 
         public ActionResult UnityStatus()
         {
-            var context = new GameResultsContext();
+            var context = new UnityContext();
             var hourAgo = DateTime.Now - TimeSpan.FromHours(1);
             var lastHoursGames = context.GameResults.Where(r => r.Time > hourAgo);
             var gamesCount = lastHoursGames.Count();
@@ -34,7 +34,7 @@ namespace UnityMVC.Controllers
                 lastHoursGames.Select(r => r.LeftPlayerUserName)
                 .Union(lastHoursGames.Select(r => r.RightPlayerUserName))
                 .Count();
-            var status = new UnityStatusContext().UnityStatus.First();
+            var status = context.UnityStatus.First();
             var model = new UnityStatistics
             {
                 IsOnline = status.Online,

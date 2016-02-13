@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Security;
 using UnityMVC.Models;
@@ -8,10 +9,16 @@ using WebMatrix.WebData;
 
 namespace UnityMVC.Models
 {
-    public class InitGameResultsDB : DropCreateDatabaseAlways<GameResultsContext>
+    public class InitUnityDb : DropCreateDatabaseAlways<UnityContext>
     {
-        protected override void Seed(GameResultsContext context)
+        protected override void Seed(UnityContext context)
         {
+            if (!context.Database.Exists())
+                ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+
+            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            InitRolesAndDefaultAccount(context);
+
             context.GameResults.Add(new GameResults
             {
                 Time = DateTime.Now,
@@ -22,13 +29,15 @@ namespace UnityMVC.Models
                 LogFileName = "hehkektop.txt",
                 Type = "training"
             });
-            
+
             MakeSomeGroupGamesForTests(context);
 
+
+            context.UnityStatus.Add(new UnityStatus { Online = false });
             context.SaveChanges();
         }
 
-        private void MakeSomeGroupGamesForTests(GameResultsContext context)
+        private void MakeSomeGroupGamesForTests(UnityContext context)
         {
             var lines = System.IO.File.ReadAllLines(WebConstants.BasePath + "Content/testGames.txt");
             var splited = lines.Where(line => !line.StartsWith("//") && !string.IsNullOrWhiteSpace(line)).Select(line => line.Split(':'));
@@ -47,14 +56,50 @@ namespace UnityMVC.Models
             foreach (var game in games)
                 context.GameResults.Add(game);
         }
-    }
 
-    public class UnityStatusDB : DropCreateDatabaseAlways<UnityStatusContext>
-    {
-        protected override void Seed(UnityStatusContext context)
+        private void InitRolesAndDefaultAccount(UnityContext context)
         {
-            context.UnityStatus.Add(new UnityStatus {Online = false});
-            context.SaveChanges();
+            // Включаем роли
+            if (!Roles.Enabled)
+                Roles.Enabled = true;
+
+            // Создаем две роли
+            if (!Roles.RoleExists("SuperAdmin"))
+                Roles.CreateRole("SuperAdmin");
+            if (!Roles.RoleExists("Admin"))
+                Roles.CreateRole("Admin");
+
+            // Создаем администратора и дает ему супер права.
+            if (!WebSecurity.UserExists(WebConstants.SuperAdminLogin))
+                WebSecurity.CreateUserAndAccount(WebConstants.SuperAdminLogin, WebConstants.SuperAdminPassword);
+            if (!Roles.IsUserInRole(WebConstants.SuperAdminLogin, "SuperAdmin"))
+                Roles.AddUserToRole(WebConstants.SuperAdminLogin, "SuperAdmin");
+
+            // for tests
+            if (!WebSecurity.UserExists("smalladmin"))
+                WebSecurity.CreateUserAndAccount("smalladmin", WebConstants.SuperAdminPassword);
+            if (!Roles.IsUserInRole("smalladmin", "Admin"))
+                Roles.AddUserToRole("smalladmin", "Admin");
+
+            WebSecurity.CreateUserAndAccount("test0", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test1", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test2", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test3", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test4", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test5", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test6", "qweqwe");
+            WebSecurity.CreateUserAndAccount("Buggy_bot", "qweqwe");
+            WebSecurity.CreateUserAndAccount("Aggro_bot", "qweqwe");
+            WebSecurity.CreateUserAndAccount("Standing_bot", "qweqwe");
+            WebSecurity.CreateUserAndAccount("Correct_bot", "qweqwe");
+            context.UserProfiles.First(u => u.UserName == "test0").CvarcTag = "00000000-0000-0000-0000-000000000000";
+            context.UserProfiles.First(u => u.UserName == "test1").CvarcTag = "00000000-0000-0000-0000-000000000001";
+            context.UserProfiles.First(u => u.UserName == "test2").CvarcTag = "00000000-0000-0000-0000-000000000002";
+            context.UserProfiles.First(u => u.UserName == "test3").CvarcTag = "00000000-0000-0000-0000-000000000003";
+            context.UserProfiles.First(u => u.UserName == "Buggy_bot").CvarcTag = "00000000-0000-0000-0000-000000000005";
+            context.UserProfiles.First(u => u.UserName == "Aggro_bot").CvarcTag = "00000000-0000-0000-0000-000000000006";
+            context.UserProfiles.First(u => u.UserName == "Standing_bot").CvarcTag = "00000000-0000-0000-0000-000000000007";
+            context.UserProfiles.First(u => u.UserName == "Correct_bot").CvarcTag = "00000000-0000-0000-0000-000000000008";
         }
     }
 }

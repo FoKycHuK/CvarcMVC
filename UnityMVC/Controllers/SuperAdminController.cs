@@ -40,7 +40,7 @@ namespace UnityMVC.Controllers
                 return View(model);
             }
             WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-            var context = new UsersContext();
+            var context = new UnityContext();
             context.UserProfiles.First(z => z.UserName == model.UserName).CvarcTag = Guid.NewGuid().ToString();
             context.SaveChanges();
             ViewBag.Message = "Аккаунт создан успешно";
@@ -75,7 +75,7 @@ namespace UnityMVC.Controllers
             foreach (var value in splited)
                 ViewBag.Message += WebSecurity.CreateUserAndAccount(value[0], value[1]);
             var userNames = splited.Select(s => s[0]);
-            var context = new UsersContext();
+            var context = new UnityContext();
             foreach (var value in splited)
             {
                 var name = value[0];
@@ -171,7 +171,7 @@ namespace UnityMVC.Controllers
         [HttpPost]
         public ActionResult DeleteGamesByFilter(FormCollection collection)
         {
-            var gameContext = new GameResultsContext();
+            var gameContext = new UnityContext();
             var contextChanged = false;
             double minutesToDelete;
             if (double.TryParse(collection["Time"], out minutesToDelete))
@@ -220,7 +220,7 @@ namespace UnityMVC.Controllers
 
         public ActionResult Delete(int gameId)
         {
-            var context = new GameResultsContext();
+            var context = new UnityContext();
             var game = context.GameResults.FirstOrDefault(r => r.Id == gameId);
             if (game == null)
             {
@@ -235,7 +235,7 @@ namespace UnityMVC.Controllers
         
         public ActionResult DeleteGame()
         {
-            return View(new GameResultsContext().GameResults.ToArray().Reverse().ToArray());
+            return View(new UnityContext().GameResults.ToArray().Reverse().ToArray());
         }
 
         [HttpGet]
@@ -251,7 +251,7 @@ namespace UnityMVC.Controllers
                 ViewBag.Message = "Неверно введено ваше имя пользователя";
                 return View();
             }
-            var context = new GameResultsContext();
+            var context = new UnityContext();
             foreach (var value in context.GameResults)
                 context.GameResults.Remove(value);
             context.SaveChanges();

@@ -9,16 +9,6 @@ using System.Web.Security;
 
 namespace UnityMVC.Models
 {
-    public class UsersContext : DbContext
-    {
-        public UsersContext()
-            : base("DefaultConnection")
-        {
-        }
-
-        public DbSet<UserProfile> UserProfiles { get; set; }
-    }
-
     [Table("UserProfile")]
     public class UserProfile
     {
@@ -36,7 +26,7 @@ namespace UnityMVC.Models
     {
         public static string GetLinkForUser(string username)
         {
-            var user = new UsersContext().UserProfiles.FirstOrDefault(u => u.UserName == username);
+            var user = new UnityContext().UserProfiles.FirstOrDefault(u => u.UserName == username);
             return user == null ? null : user.SocialLink;
         }
     }
