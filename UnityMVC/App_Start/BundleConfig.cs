@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.IO;
+using System.Web;
 using System.Web.Optimization;
 using UnityMVC.Models;
 
@@ -9,6 +10,7 @@ namespace UnityMVC
         // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //bundles.IgnoreList.Ignore("~/Content/Solutions/{all}");
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -41,6 +43,8 @@ namespace UnityMVC
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
             //Unity logs
+            if (!Directory.Exists(WebConstants.BasePath + WebConstants.RelativeLogPath))
+                Directory.CreateDirectory(WebConstants.BasePath + WebConstants.RelativeLogPath);
             bundles.Add(new Bundle("~/" + WebConstants.RelativeLogPath)
                 .IncludeDirectory("~/" + WebConstants.RelativeLogPath, "*.log"));
         }

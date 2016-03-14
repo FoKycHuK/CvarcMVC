@@ -27,7 +27,7 @@ namespace UnityMVC.Controllers
         public ActionResult UnityStatus()
         {
             var context = new UnityContext();
-            var hourAgo = DateTime.Now - TimeSpan.FromHours(1);
+            var hourAgo = WebConstants.GetCurrentTime() - TimeSpan.FromHours(1);
             var lastHoursGames = context.GameResults.Where(r => r.Time > hourAgo);
             var gamesCount = lastHoursGames.Count();
             var uniquePlayersCount = 

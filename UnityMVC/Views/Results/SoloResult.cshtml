@@ -2,19 +2,18 @@
 @model GameResults[]
 
 @{
-    ViewBag.Title = "Результаты";
+    ViewBag.Title = "Соло результаты";
 }
 
 <article>
-    <h2> Тренировочные игры: </h2>
+    <h2> Соло игры: </h2>
     @if (Model != null && Model.Length > 0)
     {
         <table>
             <thead>
                 <tr>
                     <th>Время</th>
-                    <th>Левый игрок</th>
-                    <th>Правый игрок</th>
+                    <th>Игрок</th>
                     <th>Логи</th>
                 </tr>
             </thead>
@@ -24,7 +23,6 @@
                     <tr>
                         <td>@result.Time.ToString()</td>
                         <td>@result.LeftPlayerUserName (@result.LeftPlayerScores очков)</td>
-                        <td>@result.RightPlayerUserName (@result.RightPlayerScores очков)</td>
                         <td>@Html.ActionLink("Скачать", result.LogFileName, WebConstants.RelativeLogPath)</td>
                     </tr>
                 }
@@ -33,12 +31,11 @@
     }
     else
     {
-        <h4>На данный момент не было ни одной тренировочной игры.</h4>
+        <h4>На данный момент не было ни одной игры.</h4>
     }
 </article>
-<br/>
+<br />
 <aside>
-    Результаты соло игр можно найти @Html.ActionLink("здесь", "SoloResult") <br/>
-    Результаты групповых игр можно найти @Html.ActionLink("здесь", "GroupResults") <br/>
+    Результаты групповых игр можно найти @Html.ActionLink("здесь", "GroupResults") <br />
     Результаты турнамента можно найти @Html.ActionLink("здесь", "TournamentResult")
 </aside>

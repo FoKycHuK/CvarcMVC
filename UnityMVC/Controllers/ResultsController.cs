@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using UnityMVC.Models;
 using System.IO;
+using CVARC.Infrastructure;
 
 namespace UnityMVC.Controllers
 {
@@ -12,7 +13,7 @@ namespace UnityMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View(new UnityContext().GameResults.Where(r => r.Type == "training").ToArray());
+            return View(new UnityContext().GameResults.Where(r => r.Type == "training" && r.RightPlayerUserName != null).OrderByDescending(r => r.Time).ToArray());
         }
 
         public ActionResult GroupResults()
@@ -27,29 +28,57 @@ namespace UnityMVC.Controllers
             return View(new TournamentResults(collection.ToList(), WebConstants.CountOfPlayoffPlayers));
         }
 
-        public ActionResult PushResult(string password, string leftTag, string rightTag, int leftScore, int rightScore, string logFileName, string type, string subtype)
+        public ActionResult SoloResult()
         {
-            
-            if (password != WebConstants.WebPassword)
+            var collection = new UnityContext().GameResults.Where(r => r.RightPlayerUserName == null).OrderByDescending(r => r.Time).ToArray();
+            return View(collection);
+        }
+
+        [HttpPost]
+        public ActionResult PushResult(GameResultInfo result)
+        {
+            if (result.PushPassword != WebConstants.WebPassword)
                 return new ContentResult { Content = "Password fail" };
-            var users = new UnityContext().UserProfiles.ToArray();
-            var tags = users.Select(u => u.CvarcTag).ToArray();
-            if (!tags.Contains(leftTag) || !tags.Contains(rightTag))
-                return new ContentResult {Content = "tag fail"};
             var context = new UnityContext();
+            var users = context.UserProfiles.ToArray();
+            var tags = users.Select(u => u.CvarcTag).ToArray();
+            if (result.Players.Length == 2)
+            {
+                if (!tags.Contains(result.Players[0].CvarcTag) || !tags.Contains(result.Players[1].CvarcTag))
+                    return new ContentResult {Content = "tag fail"};
+                
+                context.GameResults.Add(new GameResults
+                {
+                    Time = WebConstants.GetCurrentTime(),
+                    LeftPlayerUserName = users.First(u => u.CvarcTag == result.Players[0].CvarcTag).UserName,
+                    RightPlayerUserName = users.First(u => u.CvarcTag == result.Players[1].CvarcTag).UserName,
+                    LeftPlayerScores = result.Players[0].Score,
+                    RightPlayerScores = result.Players[1].Score,
+                    LogFileName = result.LogFileName,
+                    Type = result.Tag,
+                    Subtype = result.Subtag
+                });
+                context.SaveChanges();
+                return new ContentResult {Content = "successful"};
+            }
+
+            var player = result.Players[0];
+
+            if (!tags.Contains(player.CvarcTag))
+                return new ContentResult { Content = "tag fail" };
+
             context.GameResults.Add(new GameResults
             {
-                Time = DateTime.Now,
-                LeftPlayerUserName = users.First(u => u.CvarcTag == leftTag).UserName,
-                RightPlayerUserName = users.First(u => u.CvarcTag == rightTag).UserName,
-                LeftPlayerScores = leftScore,
-                RightPlayerScores = rightScore,
-                LogFileName = logFileName,
-                Type = type,
-                Subtype = subtype
+                Time = WebConstants.GetCurrentTime(),
+                LeftPlayerUserName = users.First(u => u.CvarcTag == player.CvarcTag).UserName,
+                LeftPlayerScores = player.Score,
+                LogFileName = result.LogFileName,
+                Type = result.Tag,
+                Subtype = result.Subtag
             });
             context.SaveChanges();
-            return new ContentResult {Content = "successful"};
+            return new ContentResult { Content = "successful" };
+
         }
         [HttpPost]
         public ActionResult PushLog(string password, HttpPostedFileBase file)
@@ -74,7 +103,7 @@ namespace UnityMVC.Controllers
                 return new ContentResult {Content = "already know!"};
             status.Online = isOnline;
             if (isOnline)
-                status.UpTime = DateTime.Now;
+                status.UpTime = WebConstants.GetCurrentTime();
             context.SaveChanges();
             return new ContentResult {Content = "successful"};
         }
@@ -84,8 +113,7 @@ namespace UnityMVC.Controllers
         public ActionResult UploadSolution()
         {
             var baseFileName = WebConstants.BasePath + WebConstants.RelativeSolutionsPath + User.Identity.Name;
-            var solutionExists = System.IO.File.Exists(baseFileName + ".zip") ||
-                                 System.IO.File.Exists(baseFileName + ".rar");
+            var solutionExists = System.IO.File.Exists(baseFileName + ".zip");
             if (solutionExists)
             {
                 var time = new UnityContext().UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded;
@@ -101,6 +129,8 @@ namespace UnityMVC.Controllers
         [HttpPost]
         public ActionResult UploadSolution(SimpleFileView simpleFileView)
         {
+            if (!Directory.Exists(WebConstants.BasePath + WebConstants.RelativeSolutionsPath))
+                Directory.CreateDirectory(WebConstants.BasePath + WebConstants.RelativeSolutionsPath);
             if (simpleFileView.UploadedFile == null)
             {
                 ViewBag.Message = "Ошибка: Выберете файл для загрузки!";
@@ -113,15 +143,15 @@ namespace UnityMVC.Controllers
             }
             var path = WebConstants.BasePath + WebConstants.RelativeSolutionsPath;
             var extention = simpleFileView.UploadedFile.FileName.Split('.').Last();
-            if (extention != "zip" && extention != "rar")
+            if (extention != "zip")
             {
-                ViewBag.Message = "Ошибка: вы должны предоставить архив с решением в формате *.rar или *.zip";
+                ViewBag.Message = "Ошибка: вы должны предоставить архив с решением в формате *.zip";
                 return View(simpleFileView);
             }
             var expectedFileName = User.Identity.Name + "." + extention;
             simpleFileView.UploadedFile.SaveAs(path + expectedFileName);
             var context = new UnityContext();
-            context.UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded = DateTime.Now;
+            context.UserProfiles.First(u => u.UserName == User.Identity.Name).SolutionLoaded = WebConstants.GetCurrentTime();
             context.SaveChanges();
             ViewBag.Message = "Решение было загружено успешно!";
             return View(simpleFileView);

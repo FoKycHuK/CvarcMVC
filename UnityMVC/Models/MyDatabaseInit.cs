@@ -9,19 +9,19 @@ using WebMatrix.WebData;
 
 namespace UnityMVC.Models
 {
-    public class InitUnityDb : DropCreateDatabaseAlways<UnityContext>
+    public class InitUnityDb : CreateDatabaseIfNotExists<UnityContext>
     {
         protected override void Seed(UnityContext context)
         {
-            if (!context.Database.Exists())
-                ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+            //if (!context.Database.Exists())
+            //    ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
 
             WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             InitRolesAndDefaultAccount(context);
 
             context.GameResults.Add(new GameResults
             {
-                Time = DateTime.Now,
+                Time = WebConstants.GetCurrentTime(),
                 LeftPlayerUserName = "test0",
                 RightPlayerUserName = "test1",
                 LeftPlayerScores = 10,
@@ -39,22 +39,27 @@ namespace UnityMVC.Models
 
         private void MakeSomeGroupGamesForTests(UnityContext context)
         {
-            var lines = System.IO.File.ReadAllLines(WebConstants.BasePath + "Content/testGames.txt");
-            var splited = lines.Where(line => !line.StartsWith("//") && !string.IsNullOrWhiteSpace(line)).Select(line => line.Split(':'));
-            // example: lName:rName:10:20:some.log:A
-            var games = splited.Select(s => new GameResults
+            if (System.IO.File.Exists(WebConstants.BasePath + "Content/testGames.txt"))
             {
-                Time = DateTime.Now,
-                LeftPlayerUserName = s[0],
-                RightPlayerUserName = s[1],
-                LeftPlayerScores = int.Parse(s[2]),
-                RightPlayerScores = int.Parse(s[3]),
-                LogFileName = s[4],
-                Type = s[5],
-                Subtype = s[6]
-            });
-            foreach (var game in games)
-                context.GameResults.Add(game);
+                var lines = System.IO.File.ReadAllLines(WebConstants.BasePath + "Content/testGames.txt");
+                var splited =
+                    lines.Where(line => !line.StartsWith("//") && !string.IsNullOrWhiteSpace(line))
+                        .Select(line => line.Split(':'));
+                // example: lName:rName:10:20:some.log:A
+                var games = splited.Select(s => new GameResults
+                {
+                    Time = WebConstants.GetCurrentTime(),
+                    LeftPlayerUserName = s[0],
+                    RightPlayerUserName = s[1],
+                    LeftPlayerScores = int.Parse(s[2]),
+                    RightPlayerScores = int.Parse(s[3]),
+                    LogFileName = s[4],
+                    Type = s[5],
+                    Subtype = s[6]
+                });
+                foreach (var game in games)
+                    context.GameResults.Add(game);
+            }
         }
 
         private void InitRolesAndDefaultAccount(UnityContext context)
@@ -81,17 +86,14 @@ namespace UnityMVC.Models
             if (!Roles.IsUserInRole("smalladmin", "Admin"))
                 Roles.AddUserToRole("smalladmin", "Admin");
 
-            WebSecurity.CreateUserAndAccount("test0", "qweqwe");
-            WebSecurity.CreateUserAndAccount("test1", "qweqwe");
-            WebSecurity.CreateUserAndAccount("test2", "qweqwe");
-            WebSecurity.CreateUserAndAccount("test3", "qweqwe");
-            WebSecurity.CreateUserAndAccount("test4", "qweqwe");
-            WebSecurity.CreateUserAndAccount("test5", "qweqwe");
-            WebSecurity.CreateUserAndAccount("test6", "qweqwe");
-            WebSecurity.CreateUserAndAccount("Buggy_bot", "qweqwe");
-            WebSecurity.CreateUserAndAccount("Aggro_bot", "qweqwe");
-            WebSecurity.CreateUserAndAccount("Standing_bot", "qweqwe");
-            WebSecurity.CreateUserAndAccount("Correct_bot", "qweqwe");
+            WebSecurity.CreateUserAndAccount("test0", "s0mePassword");
+            WebSecurity.CreateUserAndAccount("test1", "s0mePassword");
+            WebSecurity.CreateUserAndAccount("test2", "s0mePassword");
+            WebSecurity.CreateUserAndAccount("test3", "s0mePassword");
+            WebSecurity.CreateUserAndAccount("Buggy_bot", "s0mePassword");
+            WebSecurity.CreateUserAndAccount("Aggro_bot", "s0mePassword");
+            WebSecurity.CreateUserAndAccount("Standing_bot", "s0mePassword");
+            WebSecurity.CreateUserAndAccount("Correct_bot", "s0mePassword");
             context.UserProfiles.First(u => u.UserName == "test0").CvarcTag = "00000000-0000-0000-0000-000000000000";
             context.UserProfiles.First(u => u.UserName == "test1").CvarcTag = "00000000-0000-0000-0000-000000000001";
             context.UserProfiles.First(u => u.UserName == "test2").CvarcTag = "00000000-0000-0000-0000-000000000002";

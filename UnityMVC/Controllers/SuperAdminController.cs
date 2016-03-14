@@ -176,7 +176,7 @@ namespace UnityMVC.Controllers
             double minutesToDelete;
             if (double.TryParse(collection["Time"], out minutesToDelete))
             {
-                var timeToDeleteFrom = DateTime.Now - TimeSpan.FromMinutes(minutesToDelete);
+                var timeToDeleteFrom = WebConstants.GetCurrentTime() - TimeSpan.FromMinutes(minutesToDelete);
                 var gamesToDeleteByTime = gameContext.GameResults.Where(r => r.Time > timeToDeleteFrom).ToArray();
                 contextChanged = gamesToDeleteByTime.Length > 0;
                 foreach (var game in gamesToDeleteByTime)

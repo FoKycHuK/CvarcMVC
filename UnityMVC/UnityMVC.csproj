@@ -169,6 +169,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Models\Forbidden.cs" />
     <Compile Include="Models\UnityContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ResultsController.cs" />
@@ -241,6 +242,9 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\cvarc %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\cvarc.pubxml" />
+    <None Include="Properties\PublishProfiles\cvarcportal.pubxml" />
     <None Include="Properties\PublishProfiles\qwe.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
@@ -308,24 +312,34 @@
     <Content Include="Views\SuperAdmin\Index.cshtml" />
     <Content Include="Views\Results\UploadSolution.cshtml" />
     <Content Include="Views\Home\_UnityStatusPartial.cshtml" />
-    <None Include="Views\Account\ForgotPassword.cshtml" />
-    <None Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Results\GroupResults.cshtml" />
-    <None Include="Views\Account\SetAdditionalInfo.cshtml" />
-    <None Include="Views\Results\TournamentResult.cshtml" />
-    <None Include="Views\SuperAdmin\ChangeRecreateTagStatus.cshtml" />
-    <None Include="Views\SuperAdmin\ChangeRegistrationState.cshtml" />
-    <None Include="Views\SuperAdmin\CleanUp.cshtml" />
-    <None Include="Views\SuperAdmin\DeleteGame.cshtml" />
-    <None Include="Views\SuperAdmin\DeleteGamesByFilter.cshtml" />
-    <None Include="Views\SuperAdmin\RegisterManyUsers.cshtml" />
-    <None Include="Views\SuperAdmin\RegisterUser.cshtml" />
+    <Content Include="Views\Account\SetAdditionalInfo.cshtml" />
+    <Content Include="Views\Results\TournamentResult.cshtml" />
+    <Content Include="Views\SuperAdmin\ChangeRecreateTagStatus.cshtml" />
+    <Content Include="Views\SuperAdmin\ChangeRegistrationState.cshtml" />
+    <Content Include="Views\SuperAdmin\CleanUp.cshtml" />
+    <Content Include="Views\SuperAdmin\DeleteGame.cshtml" />
+    <Content Include="Views\SuperAdmin\DeleteGamesByFilter.cshtml" />
+    <Content Include="Views\SuperAdmin\RegisterManyUsers.cshtml" />
+    <Content Include="Views\SuperAdmin\RegisterUser.cshtml" />
+    <Content Include="Views\Results\SoloResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{aee36e9e-5c5a-494d-95b8-b2c19294cc6a}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -8,8 +8,8 @@ namespace UnityMVC.Models
     public static class WebConstants
     {
         public static string SuperAdminLogin = "admin";
-        public static string SuperAdminPassword = "somePassword";
-        public static string WebPassword = "somePassword";
+        public static string SuperAdminPassword = "s0mePassword";
+        public static string WebPassword = "s0mePassword";
         public static string RelativeLogPath = "Content/UnityLogs/";
         public static string RelativeSolutionsPath = "Content/Solutions/";
         public static string BasePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -18,5 +18,10 @@ namespace UnityMVC.Models
         public static int CountOfPlayoffPlayers = 16;
         public static bool IsRegistrationAvailable = false; // not so constant, but...
         public static bool IsRecreateTagAvailable = true;
+
+        public static DateTime GetCurrentTime()
+        {
+            return DateTime.UtcNow + TimeSpan.FromHours(5);
+        }
     }
 }
