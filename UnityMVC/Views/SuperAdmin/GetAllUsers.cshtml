@@ -1,0 +1,42 @@
+﻿@model UnityMVC.Models.UserProfile[]
+
+@{
+    ViewBag.Title = "Список всех пользователей";
+}
+
+<h2>Список всех пользователей</h2>
+
+<article>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Link</th>
+            <th>Solution</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserId</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.SocialLink</td>
+                    @if (user.SolutionLoaded != null)
+                    {
+                        <td>Loaded in @user.SolutionLoaded</td>
+                    }
+                    else
+                    {
+                        <td>Not loaded</td>
+                    }
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+</article>

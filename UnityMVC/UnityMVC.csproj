@@ -325,6 +325,7 @@
     <Content Include="Views\SuperAdmin\RegisterManyUsers.cshtml" />
     <Content Include="Views\SuperAdmin\RegisterUser.cshtml" />
     <Content Include="Views\Results\SoloResult.cshtml" />
+    <None Include="Views\SuperAdmin\GetAllUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

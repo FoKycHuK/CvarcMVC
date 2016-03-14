@@ -24,6 +24,14 @@ namespace UnityMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult GetAllUsers()
+        {
+            var context = new UnityContext();
+            var users = context.UserProfiles.ToArray();
+            return View(users);
+        }
+
         [HttpPost]
         public ActionResult RegisterUser(RegisterModel model)
         {
